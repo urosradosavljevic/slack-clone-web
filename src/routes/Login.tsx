@@ -11,9 +11,11 @@ import { useLoginStoreContext } from "../stores/LoginStore";
 import { TextInput } from "../shared-components/TextInput";
 
 const loginQuery = gql`
-  mutation RegisterUser($email: String!, $password: String!) {
+  mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       ok
+      token
+      refreshToken
       errors {
         path
         message
@@ -57,26 +59,26 @@ export const Login = observer(() => {
         }}
         validationSchema={loginSchema}
         onSubmit={async (values, { setSubmitting, setErrors }) => {
-          // history.push("/");
+          const { data } = await login({
+            variables: {
+              email: values.email,
+              password: values.password,
+            },
+          });
 
-          // const { data } = await login({
-          //   variables: {
-          //     email: values.email,
-          //     password: values.password,
-          //   },
-          // });
+          const { ok, errors, token, refreshToken } = data.login;
 
-          // const { ok, errors } = data.register;
-
-          // if (ok) {
-          //   history.push("/");
-          // } else {
-          //   const err: FormikErrors<FormikValues> = {};
-          //   errors.forEach(({ path, message }: FormikValues) => {
-          //     err[path] = message;
-          //   });
-          //   setErrors(err);
-          // }
+          if (ok) {
+            history.push("/");
+            localStorage.setItem("token", token);
+            localStorage.setItem("refreshToken", refreshToken);
+          } else {
+            const err: FormikErrors<FormikValues> = {};
+            errors.forEach(({ path, message }: FormikValues) => {
+              err[path] = message;
+            });
+            setErrors(err);
+          }
 
           setSubmitting(false);
         }}
