@@ -1,9 +1,11 @@
-import React, { StrictMode } from "react";
+import React from "react";
 import { render } from "react-dom";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
+import { LoginStoreContext, loginData } from "./stores/LoginStore";
 import "semantic-ui-css/semantic.min.css";
 import * as serviceWorker from "./serviceWorker";
+import "mobx-react-lite/batchingForReactDom";
 
 import Routes from "./routes";
 
@@ -12,11 +14,11 @@ const client = new ApolloClient({
 });
 
 const App = (
-  <StrictMode>
+  <LoginStoreContext.Provider value={loginData}>
     <ApolloProvider client={client}>
       <Routes />
     </ApolloProvider>
-  </StrictMode>
+  </LoginStoreContext.Provider>
 );
 
 render(App, document.getElementById("root"));

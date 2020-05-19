@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form, Field, FormikErrors,FormikValues } from "formik";
+import { Formik, Form, Field, FormikErrors, FormikValues } from "formik";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
 
@@ -60,6 +60,8 @@ export const Register = () => {
             });
             setErrors(err);
           }
+
+          console.log("ASD");
 
           setSubmitting(false);
         }}
