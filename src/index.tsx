@@ -1,17 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { StrictMode } from "react";
+import { render } from "react-dom";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "@apollo/react-hooks";
+import "semantic-ui-css/semantic.min.css";
+import * as serviceWorker from "./serviceWorker";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+import Routes from "./routes";
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/",
+});
+
+const App = (
+  <StrictMode>
+    <ApolloProvider client={client}>
+      <Routes />
+    </ApolloProvider>
+  </StrictMode>
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+render(App, document.getElementById("root"));
 serviceWorker.unregister();
