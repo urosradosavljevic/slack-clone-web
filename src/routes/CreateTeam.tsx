@@ -1,21 +1,19 @@
 import React, { FC } from "react";
 import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { useHistory } from "react-router-dom";
 import { Formik, Form, Field, FormikErrors, FormikValues } from "formik";
 import { Container, Header, Button } from "semantic-ui-react";
 import { observer } from "mobx-react";
+import gql from "graphql-tag";
 
-import { loginSchema } from "../constants/validationSchema";
+import { createTeamSchema } from "../constants/validationSchema";
 import { useLoginStoreContext } from "../stores/LoginStore";
 import { TextInput } from "../shared-components/TextInput";
 
-const loginQuery = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+const createTeamQuery = gql`
+  mutation CreateTeam($name: String!) {
+    createTeam(name: $name) {
       ok
-      token
-      refreshToken
       errors {
         path
         message
@@ -24,34 +22,30 @@ const loginQuery = gql`
   }
 `;
 
-export const Login: FC = observer(() => {
+export const CreateTeam: FC = observer(() => {
   const loginStore = useLoginStoreContext();
   const history = useHistory();
-  const [login] = useMutation(loginQuery);
+  const [createTeam] = useMutation(createTeamQuery);
 
   return (
     <Container text>
-      <Header as="h2">Login</Header>
+      <Header as="h2">Create a team</Header>
       <Formik
         initialValues={{
-          email: "",
-          password: "",
+          name: "",
         }}
-        validationSchema={loginSchema}
+        validationSchema={createTeamSchema}
         onSubmit={async (values, { setSubmitting, setErrors }) => {
-          const { data } = await login({
+          const { data } = await createTeam({
             variables: {
-              email: values.email,
-              password: values.password,
+              name: values.name,
             },
           });
 
-          const { ok, errors, token, refreshToken } = data.login;
+          const { ok, errors } = data.createTeam;
 
           if (ok) {
             history.push("/");
-            localStorage.setItem("token", token);
-            localStorage.setItem("refreshToken", refreshToken);
           } else {
             const err: FormikErrors<FormikValues> = {};
             errors.forEach(({ path, message }: FormikValues) => {
@@ -59,29 +53,20 @@ export const Login: FC = observer(() => {
             });
             setErrors(err);
           }
-
           setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
           <Form>
             <Field
-              name="email"
-              title="Email"
+              name="name"
+              title="Name"
               fluid
-              placeholder="john@mafil.com"
-              component={TextInput}
-            />
-            <Field
-              name="password"
-              title="Password"
-              type="password"
-              fluid
-              placeholder="*******"
+              placeholder="frontend-squad"
               component={TextInput}
             />
             <Button type="submit" basic fluid loading={isSubmitting}>
-              Submit
+              Create Team
             </Button>
           </Form>
         )}

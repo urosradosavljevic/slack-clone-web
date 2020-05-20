@@ -1,5 +1,5 @@
-import React from "react";
-import { gql } from "apollo-boost";
+import React, { FC } from "react";
+import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 
 const allUsersQuery = gql`
@@ -11,7 +11,7 @@ const allUsersQuery = gql`
   }
 `;
 
-export const Home = () => {
+export const Home: FC = () => {
   const { loading, data } = useQuery(allUsersQuery);
 
   if (loading) return <h2>loading</h2>;
