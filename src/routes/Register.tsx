@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { Formik, Form, Field, FormikErrors, FormikValues } from "formik";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
@@ -23,8 +23,9 @@ const registerQuery = gql`
     }
   }
 `;
+interface Props {}
 
-export const Register: FC = () => {
+export const Register: React.FC<Props> = () => {
   const history = useHistory();
 
   const [register] = useMutation(registerQuery);

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { useHistory } from "react-router-dom";
 import { Formik, Form, Field, FormikErrors, FormikValues } from "formik";
@@ -22,7 +22,9 @@ const createTeamQuery = gql`
   }
 `;
 
-export const CreateTeam: FC = observer(() => {
+interface Props {}
+
+export const CreateTeam: React.FC<Props> = observer(() => {
   const loginStore = useLoginStoreContext();
   const history = useHistory();
   const [createTeam] = useMutation(createTeamQuery);

@@ -1,13 +1,13 @@
-import React, { FC } from "react";
-import { getIn, FieldProps, } from "formik";
-import { Form, Input, Label, } from "semantic-ui-react";
+import React from "react";
+import { getIn, FieldProps } from "formik";
+import { Form, Input, Label } from "semantic-ui-react";
 
-interface InputProps {
+interface Props {
   title: string;
   name: string;
 }
 
-export const TextInput: FC<InputProps & FieldProps > = ({
+export const TextInput: React.FC<Props & FieldProps> = ({
   title,
   name,
   field,

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useHistory } from "react-router-dom";
@@ -23,8 +23,8 @@ const loginQuery = gql`
     }
   }
 `;
-
-export const Login: FC = observer(() => {
+interface Props {}
+export const Login: React.FC<Props> = observer(() => {
   const loginStore = useLoginStoreContext();
   const history = useHistory();
   const [login] = useMutation(loginQuery);
