@@ -34,3 +34,11 @@ export const createTeamSchema = yup.object().shape({
     .strict(true)
     .required("The team name is required field"),
 });
+
+export const createChannelSchema = yup.object().shape({
+  name: yup
+    .string()
+    .trim("The channel name cannot include leading and trailing spaces")
+    .strict(true)
+    .required("The channel name is required field"),
+});

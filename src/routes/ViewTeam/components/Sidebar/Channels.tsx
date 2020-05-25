@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { Icon } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 const ChannelWrapper = styled.div`
   grid-column: 2;
@@ -45,62 +47,77 @@ const Red = styled.span`
   color: #958993;
 `;
 
+const AddIconWrapper = styled.span`
+  padding-left: 10px;
+  cursor: pointer;
+`;
+
 const Bubble = ({ online = true }: { online: boolean }) =>
   online ? <Green>● </Green> : <Red>○ </Red>;
 
-interface ChannelItemProps {
+
+interface ChannelItem {
   id: number;
   name: string;
-  teamId?: number;
-  public?: boolean;
 }
 
-const channelItem = ({ id, name }: ChannelItemProps) => (
-  <SideBarListItem key={`channel-${id}`}># {name}</SideBarListItem>
+const channelItem = ({ id, name }: ChannelItem, teamId: number) => (
+  <Link key={`channel-${id}`} to={`/view-team/${teamId}/${id}`}>
+    <SideBarListItem># {name}</SideBarListItem>
+  </Link>
 );
 
 interface UserCardProps {
   id: number;
-  username: string;
+  name: string;
   online: boolean;
 }
 
-const user = ({ id, username, online }: UserCardProps) => (
+const user = ({ id, name, online }: UserCardProps) => (
   <SideBarListItem key={`user-${id}`}>
     <Bubble online={online} />
-    {username}
+    {name}
   </SideBarListItem>
 );
 
 interface Props {
+  teamId: number;
   teamName: string;
   username: string;
-  channels: Array<ChannelItemProps>;
+  channels: Array<ChannelItem>;
   users: Array<UserCardProps>;
+  onAddChannelClick: () => void;
 }
 
 export const Channels: React.FC<Props> = ({
+  teamId,
   teamName,
   username,
   channels,
   users,
+  onAddChannelClick,
 }) => (
-  <ChannelWrapper>
-    <PushRight>
-      <TeamNameHeader>{teamName}</TeamNameHeader>
-      {username}
-    </PushRight>
-    <div>
-      <SideBarList>
-        <SideBarListHeader>Channels</SideBarListHeader>
-        {channels.map(channelItem)}
-      </SideBarList>
-    </div>
-    <div>
-      <SideBarList>
-        <SideBarListHeader>Direct Messages</SideBarListHeader>
-        {users.map(user)}
-      </SideBarList>
-    </div>
-  </ChannelWrapper>
-);
+    <ChannelWrapper>
+      <PushRight>
+        <TeamNameHeader>{teamName}</TeamNameHeader>
+        {username}
+      </PushRight>
+      <div>
+        <SideBarList>
+          <SideBarListHeader>
+            Channels
+          <AddIconWrapper>
+              <Icon onClick={onAddChannelClick} name="add circle" />
+            </AddIconWrapper>
+          </SideBarListHeader>
+          {channels.map(c => channelItem(c, teamId))}
+        </SideBarList>
+      </div>
+      <div>
+        <SideBarList>
+          <SideBarListHeader>Direct Messages</SideBarListHeader>
+          {users.map(user)}
+        </SideBarList>
+      </div>
+    </ChannelWrapper>
+  );

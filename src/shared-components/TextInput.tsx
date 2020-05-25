@@ -1,6 +1,6 @@
 import React from "react";
 import { getIn, FieldProps } from "formik";
-import { Form, Input, Label } from "semantic-ui-react";
+import { FormField, Input, Label } from "semantic-ui-react";
 
 interface Props {
   title: string;
@@ -17,7 +17,7 @@ export const TextInput: React.FC<Props & FieldProps> = ({
   const errorText =
     getIn(form.touched, field.name) && getIn(form.errors, field.name);
   return (
-    <Form.Field>
+    <FormField>
       <label htmlFor={name}>{title}</label>
       <Input name={name} {...field} {...props} fluid />
       {errorText && (
@@ -25,6 +25,6 @@ export const TextInput: React.FC<Props & FieldProps> = ({
           {errorText}
         </Label>
       )}
-    </Form.Field>
+    </FormField>
   );
 };

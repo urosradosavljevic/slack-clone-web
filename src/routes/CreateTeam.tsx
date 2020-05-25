@@ -14,6 +14,9 @@ const createTeamQuery = gql`
   mutation CreateTeam($name: String!) {
     createTeam(name: $name) {
       ok
+      team {
+        id
+      }
       errors {
         path
         message
@@ -44,10 +47,10 @@ export const CreateTeam: React.FC<Props> = observer(() => {
             },
           });
 
-          const { ok, errors } = data.createTeam;
+          const { ok, errors, team } = data.createTeam;
 
           if (ok) {
-            history.push("/");
+            history.push(`/view-team/${team.id}/0`);
           } else {
             const err: FormikErrors<FormikValues> = {};
             errors.forEach(({ path, message }: FormikValues) => {

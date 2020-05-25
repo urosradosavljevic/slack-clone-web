@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { AllTeamsArray } from "../../../../constants/types";
 
 const TeamWrapper = styled.div`
   grid-column: 1;
@@ -39,13 +41,15 @@ interface TeamItemProps {
   letter: string;
 }
 
-const teamItem = ({ id, letter }: TeamItemProps) => (
-  <TeamListItem key={id}>{letter}</TeamListItem>
-);
-
 interface Props {
   teams: Array<TeamItemProps>;
 }
+
+const teamItem = ({ id, letter }: TeamItemProps) => (
+  <Link key={`team-${id}`} to={`/view-team/${id}`}>
+    <TeamListItem>{letter}</TeamListItem>
+  </Link>
+);
 
 export const Teams: React.FC<Props> = ({ teams }) => {
   return (
