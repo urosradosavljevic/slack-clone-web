@@ -35,6 +35,13 @@ export const createTeamSchema = yup.object().shape({
     .required("The team name is required field"),
 });
 
+export const createTeamMemberSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Email must be valid, example: john@mail.com")
+    .required("The email is required field"),
+});
+
 export const createChannelSchema = yup.object().shape({
   name: yup
     .string()

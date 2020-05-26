@@ -84,9 +84,11 @@ interface Props {
   teamId: number;
   teamName: string;
   username: string;
+  teamOwner: boolean;
   channels: Array<ChannelItem>;
   users: Array<UserCardProps>;
   onAddChannelClick: () => void;
+  onInvitePeopleClick: () => void;
 }
 
 export const Channels: React.FC<Props> = ({
@@ -94,8 +96,10 @@ export const Channels: React.FC<Props> = ({
   teamName,
   username,
   channels,
+  teamOwner,
   users,
   onAddChannelClick,
+  onInvitePeopleClick,
 }) => (
     <ChannelWrapper>
       <PushRight>
@@ -106,9 +110,9 @@ export const Channels: React.FC<Props> = ({
         <SideBarList>
           <SideBarListHeader>
             Channels
-          <AddIconWrapper>
+          {teamOwner && <AddIconWrapper>
               <Icon onClick={onAddChannelClick} name="add circle" />
-            </AddIconWrapper>
+            </AddIconWrapper>}
           </SideBarListHeader>
           {channels.map(c => channelItem(c, teamId))}
         </SideBarList>
@@ -118,6 +122,15 @@ export const Channels: React.FC<Props> = ({
           <SideBarListHeader>Direct Messages</SideBarListHeader>
           {users.map(user)}
         </SideBarList>
+
+        {teamOwner && <PushRight>
+          <div>
+            <a href="#invite-people" onClick={onInvitePeopleClick}>
+              + Invite People
+          </a>
+          </div>
+
+        </PushRight>}
       </div>
     </ChannelWrapper>
   );

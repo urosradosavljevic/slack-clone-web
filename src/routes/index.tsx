@@ -13,6 +13,7 @@ import { Register } from "./Register";
 import { Login } from "./Login";
 import { CreateTeam } from "./CreateTeam";
 import { ViewTeam } from "./ViewTeam/ViewTeam";
+import { Error } from "./Error";
 
 const isAuthenticated = () => {
   const token = localStorage.getItem("token");
@@ -38,12 +39,12 @@ const PrivateRoute = ({ component: Component, ...rest }: RouteProps) => (
       isAuthenticated()
         ? Component
         : () => (
-            <Redirect
-              to={{
-                pathname: "/login",
-              }}
-            />
-          )
+          <Redirect
+            to={{
+              pathname: "/login",
+            }}
+          />
+        )
     }
   />
 );
@@ -55,12 +56,13 @@ export default () => {
         <Route path="/" exact component={Home} />
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
-        <Route
+        <PrivateRoute
           path="/view-team/:teamId?/:channelId?"
           exact
           component={ViewTeam}
         />
         <PrivateRoute path="/create-team" exact component={CreateTeam} />
+        <Route path="/" component={() => <Error errors={["404", "This page doesn't exists"]} />} />
       </Switch>
     </BrowserRouter>
   );

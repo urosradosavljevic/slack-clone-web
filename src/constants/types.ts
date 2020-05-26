@@ -1,6 +1,10 @@
 export interface TeamItem {
   id: number;
   name: string;
+  owner?: {
+    id: number;
+    name: string;
+  };
   channels: [
     {
       id: number;
@@ -11,4 +15,5 @@ export interface TeamItem {
 
 export interface AllTeamsArray {
   allTeams: Array<TeamItem>;
+  inviteTeams?: Array<TeamItem>;
 }

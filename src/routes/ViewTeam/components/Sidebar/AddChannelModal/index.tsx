@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { useHistory } from "react-router-dom";
-import { Formik, Form, FormikErrors, FormikValues } from "formik";
+import { Formik, FormikErrors, FormikValues } from "formik";
 import gql from "graphql-tag";
 import findIndex from "lodash/findIndex";
 
@@ -73,15 +73,16 @@ const AddChannelModal: React.FC<Props> = ({ teamId, open, onClose }) => {
 
           if (ok) {
             history.push(`/view-team/${teamId}/${channel.id}`);
+            setSubmitting(false);
+            onClose();
           } else {
             const err: FormikErrors<FormikValues> = {};
             errors.forEach(({ path, message }: FormikValues) => {
               err[path] = message;
             });
             setErrors(err);
+            setSubmitting(false);
           }
-          setSubmitting(false);
-          onClose();
         }}
       >
         {({ isSubmitting, submitForm }) => (

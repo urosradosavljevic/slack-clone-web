@@ -4,25 +4,33 @@ import decode from "jwt-decode";
 import { Teams } from "./Teams";
 import { Channels } from "./Channels";
 import AddChannelModal from "./AddChannelModal";
+import InvitePeopleModal from "./InvitePeopleModal";
 import { AllTeamsArray, TeamItem } from "../../../../constants/types";
 
 interface Props {
   currentTeam: TeamItem;
 }
 
-export const Sidebar: React.FC<Props & AllTeamsArray> = ({ allTeams, currentTeam }) => {
-  const [openAddChannelModal, setOpenAddChannelModal] = useState<boolean>(
-    false
-  );
+interface User {
+  id?: number;
+  username?: string;
+}
 
+interface TokenData {
+  user: User;
+}
 
-  let username = "";
+const Sidebar: React.FC<Props & AllTeamsArray> = ({ allTeams, currentTeam }) => {
+  const [openAddChannelModal, setOpenAddChannelModal] = useState<boolean>(false);
+  const [openInvitePeopleModal, setOpenInvitePeopleModal] = useState<boolean>(false);
+
+  let user: User = {};
 
   try {
     const token = localStorage.getItem("token");
     if (token) {
-      const { user } = decode(token);
-      username = user.username;
+      const tokenData = decode<TokenData>(token);
+      user = tokenData.user;
     }
   } catch (error) { }
 
@@ -35,6 +43,12 @@ export const Sidebar: React.FC<Props & AllTeamsArray> = ({ allTeams, currentTeam
         onClose={() => setOpenAddChannelModal(false)}
       />
 
+      <InvitePeopleModal
+        teamId={currentTeam.id}
+        open={openInvitePeopleModal}
+        onClose={() => setOpenInvitePeopleModal(false)}
+      />
+
       <Teams
         teams={allTeams.map((t) => ({
           id: t.id,
@@ -45,9 +59,11 @@ export const Sidebar: React.FC<Props & AllTeamsArray> = ({ allTeams, currentTeam
       <Channels
         teamId={currentTeam.id}
         teamName={currentTeam.name}
+        teamOwner={currentTeam.owner === user.id}
         channels={currentTeam.channels}
         onAddChannelClick={() => setOpenAddChannelModal(true)}
-        username={username}
+        onInvitePeopleClick={() => setOpenInvitePeopleModal(true)}
+        username={user.username || ""}
         users={[
           { id: 1, name: "slackbot", online: true },
           { id: 2, name: "slacfkbot", online: false },
@@ -57,3 +73,5 @@ export const Sidebar: React.FC<Props & AllTeamsArray> = ({ allTeams, currentTeam
     </>
   );
 };
+
+export default Sidebar
