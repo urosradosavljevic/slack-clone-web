@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import { Team } from "../../../../constants/types/team";
+import { Channel } from "../../../../constants/types/channel";
 
 const ChannelWrapper = styled.div`
   grid-column: 2;
@@ -56,74 +58,58 @@ const Bubble = ({ online = true }: { online: boolean }) =>
   online ? <Green>● </Green> : <Red>○ </Red>;
 
 
-interface ChannelItem {
-  id: number;
-  name: string;
-}
-
-const channelItem = ({ id, name }: ChannelItem, teamId: number) => (
+const channelItem = ({ id, name }: Channel, teamId: number) => (
   <Link key={`channel-${id}`} to={`/view-team/${teamId}/${id}`}>
     <SideBarListItem># {name}</SideBarListItem>
   </Link>
 );
 
-interface UserCardProps {
-  id: number;
-  name: string;
-  online: boolean;
-}
 
-const user = ({ id, name, online }: UserCardProps) => (
+const user = ({ id, name }: { id: number, name: string }) => (
   <SideBarListItem key={`user-${id}`}>
-    <Bubble online={online} />
+    <Bubble online={true} />
     {name}
   </SideBarListItem>
 );
 
 interface Props {
-  teamId: number;
-  teamName: string;
+  currentTeam: Team;
+  currentChannel: Channel;
   username: string;
-  teamOwner: boolean;
-  channels: Array<ChannelItem>;
-  users: Array<UserCardProps>;
   onAddChannelClick: () => void;
   onInvitePeopleClick: () => void;
 }
 
 export const Channels: React.FC<Props> = ({
-  teamId,
-  teamName,
+  currentTeam,
+  currentChannel,
   username,
-  channels,
-  teamOwner,
-  users,
   onAddChannelClick,
   onInvitePeopleClick,
 }) => (
     <ChannelWrapper>
       <PushRight>
-        <TeamNameHeader>{teamName}</TeamNameHeader>
+        <TeamNameHeader>{currentTeam.name}</TeamNameHeader>
         {username}
       </PushRight>
       <div>
         <SideBarList>
           <SideBarListHeader>
             Channels
-          {teamOwner && <AddIconWrapper>
+          {currentTeam.admin && <AddIconWrapper>
               <Icon onClick={onAddChannelClick} name="add circle" />
             </AddIconWrapper>}
           </SideBarListHeader>
-          {channels.map(c => channelItem(c, teamId))}
+          {currentTeam.channels.map(c => channelItem(c, currentTeam.id))}
         </SideBarList>
       </div>
       <div>
         <SideBarList>
           <SideBarListHeader>Direct Messages</SideBarListHeader>
-          {users.map(user)}
+          {[{ id: 0, name: "zagorka" }, { id: 1, name: "tifani" }].map(user)}
         </SideBarList>
 
-        {teamOwner && <PushRight>
+        {currentTeam.admin && <PushRight>
           <div>
             <a href="#invite-people" onClick={onInvitePeopleClick}>
               + Invite People

@@ -2,7 +2,6 @@ import React from "react";
 import { Modal, Button, FormField } from "semantic-ui-react";
 import { Form, Field } from "formik";
 import { TextInput } from "../../../../../shared-components/TextInput";
-import { RadioToggle } from "../../../../../shared-components/RadioToggle";
 
 interface Props {
   open: boolean;

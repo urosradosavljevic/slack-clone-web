@@ -18,7 +18,7 @@ export const TextInput: React.FC<Props & FieldProps> = ({
     getIn(form.touched, field.name) && getIn(form.errors, field.name);
   return (
     <FormField>
-      <label htmlFor={name}>{title}</label>
+      {title && <label htmlFor={name}>{title}</label>}
       <Input name={name} {...field} {...props} fluid />
       {errorText && (
         <Label basic color="red" pointing>

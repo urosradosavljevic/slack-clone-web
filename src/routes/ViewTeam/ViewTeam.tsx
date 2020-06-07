@@ -4,14 +4,14 @@ import findIndex from "lodash/findIndex";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 
 import AppWrapper from "./components/AppWrapper";
-import MessagesWrapper from "./components/MessagesWrapper";
 import { Header } from "./components/Header";
-import { SendMessage } from "./components/SendMessage";
+import SendMessage from "./components/SendMessage";
 import Sidebar from "./components/Sidebar"
 
-import { AllTeamsArray } from "../../constants/types";
-import { allTeamsQuery } from "../../graphql/team";
-import { Error } from "../Error";
+
+import ChannelMessages from "./components/ChannelMessages";
+import { Message } from "semantic-ui-react";
+import { meQuery } from "../../graphql/user";
 
 interface Params {
   match: string;
@@ -23,31 +23,22 @@ export const ViewTeam = ({
   match: { params },
 }: RouteComponentProps<Params>) => {
   const history = useHistory();
+
   const currentTeamId = parseInt(params.teamId, 10)
   const currentChannelId = parseInt(params.channelId, 10)
 
-  const { loading, data } = useQuery(allTeamsQuery);
+  const { loading, data } = useQuery(meQuery);
 
   if (loading) {
     return null;
   }
 
-  if (!data) {
+  if (!data.me.teams || data.me.teams.length === 0) {
     history.push("/create-team")
     return null;
   }
 
-  const { allTeams, inviteTeams }: AllTeamsArray = data.allTeams && data;
-  let teams = []
-  if (inviteTeams) {
-    teams = [...allTeams, ...inviteTeams]
-  } else {
-    teams = [...allTeams]
-  }
-
-  console.log("teams", teams)
-
-  // TODO: Show add channel and team buttons only on right users's screen
+  const { me: { username, teams } } = data.me && data;
 
   const teamIdx = !!currentTeamId ? findIndex(teams, ["id", currentTeamId]) : 0;
   const currentTeam = teamIdx === -1 ? teams[0] : teams[teamIdx];
@@ -57,12 +48,12 @@ export const ViewTeam = ({
 
   return (
     <AppWrapper>
-      <Sidebar allTeams={teams} currentTeam={currentTeam} />
-      {currentChannel && <>
+      <Sidebar teams={teams} username={username} currentTeam={currentTeam} currentChannel={currentChannel} />
+      {currentChannel ? <>
         <Header channelName={currentChannel.name} />
-        <MessagesWrapper></MessagesWrapper>
-        <SendMessage channelName={currentChannel.name} />
-      </>}
+        <ChannelMessages channelId={currentChannel.id} />
+        <SendMessage channelId={currentChannel.id} channelName={currentChannel.name} />
+      </> : <Message list={["Select channel"]} />}
     </AppWrapper>
   );
 };

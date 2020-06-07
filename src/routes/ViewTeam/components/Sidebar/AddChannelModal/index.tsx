@@ -7,8 +7,8 @@ import findIndex from "lodash/findIndex";
 
 import { createChannelSchema } from "../../../../../constants/validationSchema";
 import { AddChannelModalView } from "./AddChannelModalView";
-import { allTeamsQuery } from "../../../../../graphql/team";
-import { AllTeamsArray } from "../../../../../constants/types";
+import { meQuery } from "../../../../../graphql/user";
+import { TeamsArray } from "../../../../../constants/types/team";
 
 const createChannelMutation = gql`
   mutation CreateChannel($name: String!, $teamId: Int!, $public: Boolean) {
@@ -58,13 +58,13 @@ const AddChannelModal: React.FC<Props> = ({ teamId, open, onClose }) => {
                 return;
               }
 
-              const data = store.readQuery<AllTeamsArray | null>({
-                query: allTeamsQuery
+              const data: { me: TeamsArray } | null = store.readQuery({
+                query: meQuery
               });
 
               if (data) {
-                const teamIdx = findIndex(data.allTeams, ["id", teamId]);
-                data.allTeams[teamIdx].channels.push(channel);
+                const teamIdx = findIndex(data.me.teams, ["id", teamId]);
+                data.me.teams[teamIdx].channels.push(channel);
               }
             },
           });

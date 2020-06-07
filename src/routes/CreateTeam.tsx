@@ -6,8 +6,8 @@ import { Container, Header, Button } from "semantic-ui-react";
 import { observer } from "mobx-react";
 import gql from "graphql-tag";
 
+// import { useLoginStoreContext } from "../stores/LoginStore";
 import { createTeamSchema } from "../constants/validationSchema";
-import { useLoginStoreContext } from "../stores/LoginStore";
 import { TextInput } from "../shared-components/TextInput";
 
 const createTeamQuery = gql`
@@ -25,10 +25,10 @@ const createTeamQuery = gql`
   }
 `;
 
-interface Props {}
+interface Props { }
 
 export const CreateTeam: React.FC<Props> = observer(() => {
-  const loginStore = useLoginStoreContext();
+  // const loginStore = useLoginStoreContext();
   const history = useHistory();
   const [createTeam] = useMutation(createTeamQuery);
 

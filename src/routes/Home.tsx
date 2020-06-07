@@ -1,28 +1,25 @@
 import React from "react";
-import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import { allUsers } from "../graphql/user";
+import { User } from "../constants/types/user";
 
-const allUsersQuery = gql`
-  query {
-    allUsers {
-      id
-      email
-    }
-  }
-`;
-
-interface Props {}
+interface Props { }
 
 export const Home: React.FC<Props> = () => {
-  const { loading, data } = useQuery(allUsersQuery);
+  const { loading, data } = useQuery(allUsers);
 
   if (loading) return <h2>loading</h2>;
 
-  const { allUsers } = data;
+  if (data !== undefined) {
+    const { allUsers } = data;
+    console.log(allUsers)
 
-  return allUsers.map(
-    (user: { id: string | number | undefined; email: React.ReactNode }) => (
-      <h1 key={user.id}>{user.email}</h1>
-    )
-  );
+    return allUsers.map(
+      (user: User) => (
+        <h1 key={user.id}>{user.email}</h1>
+      )
+    );
+
+  }
+  return null
 };

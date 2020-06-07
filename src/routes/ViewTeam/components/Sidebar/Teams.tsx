@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { AllTeamsArray } from "../../../../constants/types";
 
 const TeamWrapper = styled.div`
   grid-column: 1;

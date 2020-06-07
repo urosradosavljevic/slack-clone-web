@@ -6,8 +6,8 @@ import { Formik, Form, Field, FormikErrors, FormikValues } from "formik";
 import { Container, Header, Button } from "semantic-ui-react";
 import { observer } from "mobx-react";
 
+// import { useLoginStoreContext } from "../stores/LoginStore";
 import { loginSchema } from "../constants/validationSchema";
-import { useLoginStoreContext } from "../stores/LoginStore";
 import { TextInput } from "../shared-components/TextInput";
 
 const loginQuery = gql`
@@ -23,9 +23,9 @@ const loginQuery = gql`
     }
   }
 `;
-interface Props {}
+interface Props { }
 export const Login: React.FC<Props> = observer(() => {
-  const loginStore = useLoginStoreContext();
+  // const loginStore = useLoginStoreContext();
   const history = useHistory();
   const [login] = useMutation(loginQuery);
 
