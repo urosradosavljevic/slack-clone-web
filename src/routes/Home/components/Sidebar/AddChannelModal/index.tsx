@@ -2,29 +2,15 @@ import React from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { useHistory } from "react-router-dom";
 import { Formik, FormikErrors, FormikValues } from "formik";
-import gql from "graphql-tag";
 import findIndex from "lodash/findIndex";
 
 import { createChannelSchema } from "../../../../../constants/validationSchema";
 import { AddChannelModalView } from "./AddChannelModalView";
 import { meQuery } from "../../../../../graphql/user";
+import { createChannelMutation } from "../../../../../graphql/channel";
 import { TeamsArray } from "../../../../../constants/types/team";
+import { TEAM_HOME_ROUTE } from "../../../../../constants/routes";
 
-const createChannelMutation = gql`
-  mutation CreateChannel($name: String!, $teamId: Int!, $public: Boolean) {
-    createChannel(name: $name, teamId: $teamId, public: $public) {
-      ok
-      channel {
-        id
-        name
-      }
-      errors {
-        path
-        message
-      }
-    }
-  }
-`;
 
 interface Props {
   teamId: number;
@@ -72,7 +58,7 @@ const AddChannelModal: React.FC<Props> = ({ teamId, open, onClose }) => {
           const { ok, errors, channel } = data.createChannel;
 
           if (ok) {
-            history.push(`/view-team/${teamId}/${channel.id}`);
+            history.push(`${TEAM_HOME_ROUTE}/${teamId}/${channel.id}`);
             setSubmitting(false);
             onClose();
           } else {

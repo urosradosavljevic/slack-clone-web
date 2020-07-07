@@ -1,15 +1,15 @@
 import React from 'react'
 import { Comment } from 'semantic-ui-react';
-import { Message } from '../../../../constants/types/message';
+import { DirectMessage } from '../../../../constants/types/directMessage';
 import MessagesWrapper from './MessagesWrapper';
 
 interface Props {
-    messages: Array<Message>
+    messages: Array<DirectMessage>
 }
 
-const messageListItem = (m: Message, i: number) => <Comment key={i}>
+const messageListItem = (m: DirectMessage, i: number) => <Comment key={i}>
     <Comment.Content>
-        <Comment.Author as='a'>{m.user.username}</Comment.Author>
+        <Comment.Author as='a'>{m.sender.username}</Comment.Author>
         <Comment.Metadata>
             <div>{m.createdAt}</div>
         </Comment.Metadata>
@@ -20,7 +20,7 @@ const messageListItem = (m: Message, i: number) => <Comment key={i}>
     </Comment.Content>
 </Comment>
 
-export const ChannelMessagesView: React.FC<Props> = ({ messages }) => {
+export const DirectMessagesView: React.FC<Props> = ({ messages }) => {
     return (<MessagesWrapper>
         <Comment.Group>
             {messages.map(messageListItem)}

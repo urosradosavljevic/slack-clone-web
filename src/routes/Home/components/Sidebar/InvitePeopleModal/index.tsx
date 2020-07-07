@@ -6,6 +6,7 @@ import { useMutation } from '@apollo/react-hooks';
 
 import { createTeamMemberSchema } from "../../../../../constants/validationSchema"
 import { InvitePeopleModalView } from "./InvitePeopleModalView"
+import { TEAM_HOME_ROUTE } from '../../../../../constants/routes';
 
 const createTeamMemberMutation = gql`
   mutation CreateTeamMembe($email: String!, $teamId: Int!) {
@@ -47,10 +48,8 @@ const InvitePeopleModal: React.FC<Props> = ({ open, onClose, teamId }) => {
 
                     const { ok, errors } = data.createTeamMember;
 
-                    console.log("submiting form", ok, errors)
-
                     if (ok) {
-                        history.push(`/view-team/${teamId}`);
+                        history.push(`${TEAM_HOME_ROUTE}/${teamId}`);
                         onClose();
                         setSubmitting(false);
                     } else {

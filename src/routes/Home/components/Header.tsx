@@ -8,13 +8,13 @@ const HeaderWrapper = styled.div`
 `;
 
 interface Props {
-  channelName: string;
+  content: string;
 }
 
-export const Header: React.FC<Props> = ({ channelName }) => {
+export const Header: React.FC<Props> = ({ content }) => {
   return (
     <HeaderWrapper>
-      <SemanticHeader textAlign="center">#{channelName}</SemanticHeader>
+      <SemanticHeader textAlign="center">#{content}</SemanticHeader>
     </HeaderWrapper>
   );
 };

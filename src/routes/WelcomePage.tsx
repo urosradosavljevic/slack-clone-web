@@ -5,7 +5,7 @@ import { User } from "../constants/types/user";
 
 interface Props { }
 
-export const Home: React.FC<Props> = () => {
+export const WelcomePage: React.FC<Props> = () => {
   const { loading, data } = useQuery(allUsers);
 
   if (loading) return <h2>loading</h2>;

@@ -1,28 +1,21 @@
 import React, { useState } from "react";
 
 import { Teams } from "./Teams";
-import { Channels } from "./Channels";
 import AddChannelModal from "./AddChannelModal";
+import DirectUserModal from "./DirectUserModal";
 import InvitePeopleModal from "./InvitePeopleModal";
 import { TeamsArray, Team } from "../../../../constants/types/team";
-import { Channel } from "../../../../constants/types/channel";
+import { TeamSidebarOptions } from "./TeamSidebarOptions/TeamSidebarOptions";
 
 interface Props {
-  currentChannel: Channel;
   currentTeam: Team;
   username: string;
 }
 
-interface User {
-  id?: number;
-  username?: string;
-}
-
-
-const Sidebar: React.FC<Props & TeamsArray> = ({ username, teams, currentTeam, currentChannel }) => {
+const Sidebar: React.FC<Props & TeamsArray> = ({ username, teams, currentTeam }) => {
   const [openAddChannelModal, setOpenAddChannelModal] = useState<boolean>(false);
   const [openInvitePeopleModal, setOpenInvitePeopleModal] = useState<boolean>(false);
-
+  const [openDirectUserModal, setOpenDirectUserModal] = useState<boolean>(false);
 
   return (
     <>
@@ -39,6 +32,12 @@ const Sidebar: React.FC<Props & TeamsArray> = ({ username, teams, currentTeam, c
         onClose={() => setOpenInvitePeopleModal(false)}
       />
 
+      <DirectUserModal
+        teamId={currentTeam.id}
+        open={openDirectUserModal}
+        onClose={() => setOpenDirectUserModal(false)}
+      />
+
       <Teams
         teams={teams.map((t) => ({
           id: t.id,
@@ -46,12 +45,12 @@ const Sidebar: React.FC<Props & TeamsArray> = ({ username, teams, currentTeam, c
         }))}
       />
 
-      <Channels
+      <TeamSidebarOptions
         currentTeam={currentTeam}
-        currentChannel={currentChannel}
         username={username}
         onAddChannelClick={() => setOpenAddChannelModal(true)}
         onInvitePeopleClick={() => setOpenInvitePeopleModal(true)}
+        onAddDirectUserClick={() => setOpenDirectUserModal(!openDirectUserModal)}
       />
 
     </>

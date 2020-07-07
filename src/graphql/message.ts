@@ -25,3 +25,23 @@ export const newChannelMessageSubscription = gql`
     }
   }
 `;
+
+export const sendMessageMutation = gql`
+  mutation SendMessage($channelId: Int!, $text: String!) {
+    sendMessage(channelId: $channelId, text: $text) {
+      ok
+      errors {
+        path
+        message
+      }
+      message {
+        id
+        text
+        user {
+          id
+          username
+        }
+      }
+    }
+  }
+`;

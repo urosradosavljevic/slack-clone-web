@@ -10,16 +10,16 @@ const SendMessageWrapper = styled.div`
 `;
 
 interface Props {
-  channelName: string;
+  placeholder: string;
 }
 
-export const SendMessageView: React.FC<Props> = ({ channelName }) => {
+export const SendMessageView: React.FC<Props> = ({ placeholder }) => {
   return (
     <SendMessageWrapper>
       <Field
         fluid
         name="text"
-        placeholder={`Message #${channelName}`}
+        placeholder={`Message #${placeholder}`}
         component={TextInput}
       />
     </SendMessageWrapper>

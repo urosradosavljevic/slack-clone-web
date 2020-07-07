@@ -28,3 +28,13 @@ export const allUsers = gql`
     }
   }
 `;
+
+export const userQuery = gql`
+  query User($userId: Int!) {
+    user(userId: $userId) {
+      id
+      email
+      username
+    }
+  }
+`;

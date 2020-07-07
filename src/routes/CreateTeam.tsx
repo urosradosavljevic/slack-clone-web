@@ -9,6 +9,7 @@ import gql from "graphql-tag";
 // import { useLoginStoreContext } from "../stores/LoginStore";
 import { createTeamSchema } from "../constants/validationSchema";
 import { TextInput } from "../shared-components/TextInput";
+import { TEAM_HOME_ROUTE } from "../constants/routes";
 
 const createTeamQuery = gql`
   mutation CreateTeam($name: String!) {
@@ -50,7 +51,7 @@ export const CreateTeam: React.FC<Props> = observer(() => {
           const { ok, errors, team } = data.createTeam;
 
           if (ok) {
-            history.push(`/view-team/${team.id}/0`);
+            history.push(`${TEAM_HOME_ROUTE}/${team.id}/0`);
           } else {
             const err: FormikErrors<FormikValues> = {};
             errors.forEach(({ path, message }: FormikValues) => {

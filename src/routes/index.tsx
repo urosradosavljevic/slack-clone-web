@@ -8,11 +8,13 @@ import {
 } from "react-router-dom";
 import decode from "jwt-decode";
 
-import { Home } from "./Home";
+import * as routes from "../constants/routes";
+
+import { WelcomePage } from "./WelcomePage";
 import { Register } from "./Register";
 import { Login } from "./Login";
 import { CreateTeam } from "./CreateTeam";
-import { ViewTeam } from "./ViewTeam/ViewTeam";
+import { Home } from "./Home/Home";
 import { Error } from "./Error";
 
 const isAuthenticated = () => {
@@ -41,7 +43,7 @@ const PrivateRoute = ({ component: Component, ...rest }: RouteProps) => (
         : () => (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: routes.LOGIN_ROUTE,
             }}
           />
         )
@@ -53,16 +55,21 @@ export default () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/register" exact component={Register} />
-        <Route path="/login" exact component={Login} />
+        <Route path={routes.WELCOME_ROUTE} exact component={WelcomePage} />
+        <Route path={routes.REGISTER_ROUTE} exact component={Register} />
+        <Route path={routes.LOGIN_ROUTE} exact component={Login} />
         <PrivateRoute
-          path="/view-team/:teamId?/:channelId?"
+          path={routes.DIRECT_MESSAGE_ROUTE}
           exact
-          component={ViewTeam}
+          component={Home}
         />
-        <PrivateRoute path="/create-team" exact component={CreateTeam} />
-        <Route path="/" component={() => <Error errors={["404", "This page doesn't exists"]} />} />
+        <PrivateRoute
+          path={routes.TEAM_ROUTE}
+          exact
+          component={Home}
+        />
+        <PrivateRoute path={routes.CREATE_TEAM_ROUTE} exact component={CreateTeam} />
+        <Route path={routes.ERROR_ROUTE} component={() => <Error errors={["404", "This page doesn't exists"]} />} />
       </Switch>
     </BrowserRouter>
   );
