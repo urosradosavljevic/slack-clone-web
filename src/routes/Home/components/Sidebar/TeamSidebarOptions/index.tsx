@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Team } from "../../../../../constants/types/team";
 import { Channels } from './Channels';
 import { TeamUsers } from './TeamUsers';
+import { PushRight } from './TeamSidebarView';
 
 const TeamOptionsWrapper = styled.div`
   grid-column: 2;
@@ -37,10 +38,19 @@ export const TeamSidebarOptions: React.FC<Props> = ({
 
             <TeamUsers
                 currentTeam={currentTeam}
-                users={[{ id: 0, name: "zagorka" }, { id: 1, name: "tifani" }]}
-                setOpenInvitePeopleModal={onInvitePeopleClick}
                 setOpenDirectUserModal={onAddDirectUserClick}
             />
+
+            {currentTeam.admin && <PushRight>
+                <div>
+                    <a
+                        href="#invite-people" onClick={onInvitePeopleClick}
+                    >
+                        + Invite People
+                    </a>
+                </div>
+
+            </PushRight>}
 
         </TeamOptionsWrapper>);
 }

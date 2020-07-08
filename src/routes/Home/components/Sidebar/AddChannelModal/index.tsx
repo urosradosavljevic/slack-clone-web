@@ -51,6 +51,7 @@ const AddChannelModal: React.FC<Props> = ({ teamId, open, onClose }) => {
               if (data) {
                 const teamIdx = findIndex(data.me.teams, ["id", teamId]);
                 data.me.teams[teamIdx].channels.push(channel);
+                store.writeQuery({ query: meQuery, data });
               }
             },
           });

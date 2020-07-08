@@ -11,7 +11,7 @@ interface Props {
 }
 
 const DirectUserModal: React.FC<Props> = ({ open, onClose, teamId }) => {
-  const history = useHistory();
+  
   const { loading, data } = useQuery(teamMembersQuery, {
     variables: { teamId }
   });
@@ -19,7 +19,7 @@ const DirectUserModal: React.FC<Props> = ({ open, onClose, teamId }) => {
   if (loading) {
     return null;
   }
-  console.log("data:", data)
+  
   return (
     <DirectUserModalView
       teamId={teamId}

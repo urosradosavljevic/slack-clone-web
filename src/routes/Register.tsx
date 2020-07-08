@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import { Container, Header, Button } from "semantic-ui-react";
 import { TextInput } from "../shared-components/TextInput";
 import { registerSchema } from "../constants/validationSchema";
-import { TEAM_ROUTE } from "../constants/routes";
+import { TEAM_ROUTE, TEAM_HOME_ROUTE } from "../constants/routes";
 
 const registerQuery = gql`
   mutation RegisterUser(
@@ -54,7 +54,7 @@ export const Register: React.FC<Props> = () => {
           const { ok, errors } = data.register;
 
           if (ok) {
-            history.push(TEAM_ROUTE);
+            history.push(TEAM_HOME_ROUTE);
           } else {
             const err: FormikErrors<FormikValues> = {};
             errors.forEach(({ path, message }: FormikValues) => {

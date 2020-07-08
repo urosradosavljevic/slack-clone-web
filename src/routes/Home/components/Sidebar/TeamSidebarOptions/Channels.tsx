@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { SideBarList, SideBarListItem, SideBarListHeader, PushRight } from "./SideBarList";
+import { SideBarList, SideBarListItem, SideBarListHeader, PushRight } from "./TeamSidebarView";
 import { Team } from "../../../../../constants/types/team";
 import { Channel } from "../../../../../constants/types/channel";
 import { TEAM_HOME_ROUTE } from "../../../../../constants/routes";

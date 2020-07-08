@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { SideBarList, SideBarListItem, SideBarListHeader, PushRight } from "./SideBarList";
+import { SideBarList, SideBarListItem, SideBarListHeader } from "./TeamSidebarView";
 import { Team } from "../../../../../constants/types/team";
+import { DIRECT_MESSAGE_HOME_ROUTE } from "../../../../../constants/routes";
 import { AddCircleButton } from "../../../../../shared-components/AddCircleButton";
 
 interface User {
@@ -12,17 +13,9 @@ interface User {
 
 interface Props {
     currentTeam: Team;
-    users: Array<User>;
-    setOpenInvitePeopleModal: () => void;
     setOpenDirectUserModal: () => void;
 }
 
-const user = ({ id, name }: { id: number, name: string }) => (
-    <SideBarListItem key={`user-${id}`}>
-        <Bubble online={true} />
-        {name}
-    </SideBarListItem>
-);
 
 const Green = styled.span`
     color: #38978d;
@@ -37,10 +30,19 @@ const Bubble = ({ online = true }: { online: boolean }) =>
 
 export const TeamUsers: React.FC<Props> = ({
     currentTeam,
-    users,
-    setOpenInvitePeopleModal,
     setOpenDirectUserModal,
-}) => (
+}) => {
+
+    const user = ({ id, username }: { id: number, username: string }) => (
+        <Link key={`user-${id}`} to={`${DIRECT_MESSAGE_HOME_ROUTE}${currentTeam.id}/${id}`}>
+            <SideBarListItem >
+                <Bubble online={true} />
+                {username}
+            </SideBarListItem>
+        </Link>
+    )
+    console.log("directMessagedMembers", currentTeam.directMessagedMembers);
+    return (
         <>
             <SideBarList>
                 <SideBarListHeader>
@@ -49,18 +51,8 @@ export const TeamUsers: React.FC<Props> = ({
                         onClick={setOpenDirectUserModal}
                     />
                 </SideBarListHeader>
-                {users.map(user)}
+                {currentTeam.directMessagedMembers.map(user)}
             </SideBarList>
-
-            {currentTeam.admin && <PushRight>
-                <div>
-                    <a
-                        href="#invite-people" onClick={setOpenInvitePeopleModal}
-                    >
-                        + Invite People
-                    </a>
-                </div>
-
-            </PushRight>}
         </>
-    );
+    )
+};

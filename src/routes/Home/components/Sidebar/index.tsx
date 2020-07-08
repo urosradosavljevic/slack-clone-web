@@ -5,7 +5,7 @@ import AddChannelModal from "./AddChannelModal";
 import DirectUserModal from "./DirectUserModal";
 import InvitePeopleModal from "./InvitePeopleModal";
 import { TeamsArray, Team } from "../../../../constants/types/team";
-import { TeamSidebarOptions } from "./TeamSidebarOptions/TeamSidebarOptions";
+import { TeamSidebarOptions } from "./TeamSidebarOptions";
 
 interface Props {
   currentTeam: Team;

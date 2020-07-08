@@ -33,7 +33,7 @@ export const DirectUserModalView: React.FC<Props> = ({
     >
       <Modal.Header content="Search Users" />
       <Modal.Content>
-        <Form.Field>
+        <Form.Field style={{ position:"relative" }} >
           <Downshift
             onChange={selection =>{
               history.push(`${DIRECT_MESSAGE_HOME_ROUTE}${teamId}/${selection.id}`)
@@ -54,7 +54,7 @@ export const DirectUserModalView: React.FC<Props> = ({
                 <>
                   <label style={{ color: "white" }} {...getLabelProps()}>Enter a users username</label>
                   <div
-                    style={{ display: 'inline-block', width: "100%" }}
+                    style={{ display: 'inline-block', position:"relative", width: "100%" }}
                     {...getRootProps({ refKey: "" }, { suppressRefError: true })}
                   >
                     <input {...getInputProps({
@@ -62,7 +62,7 @@ export const DirectUserModalView: React.FC<Props> = ({
                     })}
                     />
                   </div>
-                  {console.log(users)}
+                  
                   <DownshiftList {...getMenuProps()}>
                     {isOpen
                       ? users
