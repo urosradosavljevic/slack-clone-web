@@ -1,8 +1,8 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useQuery } from "@apollo/react-hooks";
+
 import { DirectUserModalView } from "./DirectUserModalView";
 import { teamMembersQuery } from "../../../../../graphql/team";
-import { useQuery } from "@apollo/react-hooks";
 
 interface Props {
   teamId: number;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const DirectUserModal: React.FC<Props> = ({ open, onClose, teamId }) => {
-  
+
   const { loading, data } = useQuery(teamMembersQuery, {
     variables: { teamId }
   });
@@ -19,7 +19,7 @@ const DirectUserModal: React.FC<Props> = ({ open, onClose, teamId }) => {
   if (loading) {
     return null;
   }
-  
+
   return (
     <DirectUserModalView
       teamId={teamId}

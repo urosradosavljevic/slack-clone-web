@@ -27,7 +27,7 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
             }
         });
 
-        const { ok, errors } = data.sendMessage;
+        const { ok } = data.sendMessage;
 
         if (ok) {
             setSubmitting(false);
@@ -41,8 +41,6 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
             document: newChannelMessageSubscription,
             variables: { channelId },
             updateQuery: (prev, { subscriptionData }) => {
-                console.log("new update")
-                console.log(subscriptionData)
                 if (!subscriptionData) {
                     return prev;
                 }

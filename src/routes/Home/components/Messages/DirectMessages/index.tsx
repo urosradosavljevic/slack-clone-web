@@ -1,34 +1,52 @@
 import React, { useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks';
+import findIndex from "lodash/findIndex";
 
 import { directMessagesQuery, newDirectMessageSubscription, sendDirectMessageMutation } from '../../../../../graphql/directMessage';
+import { meQuery } from "../../../../../graphql/user";
+import { TeamsArray, Team } from "../../../../../constants/types/team";
 import SendMessage from '../../SendMessage';
 import { DirectMessagesView } from '../DirectMessagesView';
 
 interface Props {
-    user: number;
-    teamId: number;
+    userId: number;
+    username: string;
+    team: Team;
 }
 
-const DirectMessages: React.FC<Props> = ({ teamId, user }) => {
+const DirectMessages: React.FC<Props> = ({ team, userId, username }) => {
     const [sendDirectMessage] = useMutation(sendDirectMessageMutation);
 
-    // const { loading, data } = useQuery(directMessagesQuery, {
     const { loading, data, subscribeToMore } = useQuery(directMessagesQuery, {
-        variables: { receiverId: user, teamId },
+        variables: { userId, teamId: team.id },
         fetchPolicy: 'network-only',
     })
 
     const submit = async (values: { text: string }, setSubmitting: (arg0: boolean) => void) => {
         const { data } = await sendDirectMessage({
             variables: {
-                receiverId: user,
-                teamId,
+                receiverId: userId,
+                teamId: team.id,
                 text: values.text,
-            }
+            },
+            update: (store) => {
+                const data: { me: TeamsArray } | null = store.readQuery({ query: meQuery });
+                if (data) {
+                    const teamIdx = findIndex(data.me.teams, ["id", team.id]);
+                    const notAlreadyThere = data.me.teams[teamIdx].directMessagedMembers.every(m => m.id !== userId);
+                    if (notAlreadyThere) {
+                        data.me.teams[teamIdx].directMessagedMembers.push({
+                            __typename: 'User',
+                            id: userId,
+                            username,
+                        });
+                        store.writeQuery({ query: meQuery, data });
+                    }
+                }
+            },
         });
 
-        const { ok, errors } = data.sendDirectMessage;
+        const { ok } = data.sendDirectMessage;
 
         if (ok) {
             setSubmitting(false);
@@ -40,16 +58,17 @@ const DirectMessages: React.FC<Props> = ({ teamId, user }) => {
     useEffect(() => {
         const unsubscribe = subscribeToMore({
             document: newDirectMessageSubscription,
-            variables: { receiverId: user, teamId },
+            variables: { userId, teamId: team.id },
             updateQuery: (prev, { subscriptionData }) => {
+
                 if (!subscriptionData) {
                     return prev;
                 }
                 return {
                     ...prev,
-                    channelMessages: [
-                        ...prev.channelMessages,
-                        subscriptionData.data.newChannelMessage
+                    directMessages: [
+                        ...prev.directMessages,
+                        subscriptionData.data.newDirectMessage
                     ]
                 }
             }
@@ -60,11 +79,11 @@ const DirectMessages: React.FC<Props> = ({ teamId, user }) => {
     if (loading) {
         return null;
     }
-    console.log("directmessages:", data)
+
     return (
         <>
             <DirectMessagesView messages={data.directMessages} />
-            <SendMessage submit={submit} placeholder={"User"} />
+            <SendMessage submit={submit} placeholder={username} />
         </>
     );
 }

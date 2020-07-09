@@ -6,11 +6,6 @@ import { Team } from "../../../../../constants/types/team";
 import { DIRECT_MESSAGE_HOME_ROUTE } from "../../../../../constants/routes";
 import { AddCircleButton } from "../../../../../shared-components/AddCircleButton";
 
-interface User {
-    id: number;
-    name: string;
-}
-
 interface Props {
     currentTeam: Team;
     setOpenDirectUserModal: () => void;
@@ -41,7 +36,7 @@ export const TeamUsers: React.FC<Props> = ({
             </SideBarListItem>
         </Link>
     )
-    console.log("directMessagedMembers", currentTeam.directMessagedMembers);
+
     return (
         <>
             <SideBarList>

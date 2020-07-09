@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 export const directMessagesQuery = gql`
-  query DirectMessages($receiverId: Int!, $teamId: Int!) {
-    directMessages(receiverId: $receiverId, teamId: $teamId) {
+  query DirectMessages($userId: Int!, $teamId: Int!) {
+    directMessages(userId: $userId, teamId: $teamId) {
       text
       receiver {
         id
@@ -18,15 +18,18 @@ export const directMessagesQuery = gql`
 `;
 
 export const newDirectMessageSubscription = gql`
-  subscription NewDirectMessage($channelId: Int!) {
-    newDirectMessage(channelId: $channelId) {
+  subscription NewDirectMessage($teamId: Int!, $userId: Int!) {
+    newDirectMessage(teamId: $teamId, userId: $userId) {
       text
-
-      # user {
-      #   id
-      #   username
-      # }
-      # createdAt
+      receiver {
+        id
+        username
+      }
+      sender {
+        id
+        username
+      }
+      createdAt
     }
   }
 `;

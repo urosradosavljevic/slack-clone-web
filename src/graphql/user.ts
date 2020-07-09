@@ -10,7 +10,7 @@ export const meQuery = gql`
         id
         name
         admin
-        directMessagedMembers{
+        directMessagedMembers {
           id
           username
         }
@@ -33,9 +33,9 @@ export const allUsers = gql`
   }
 `;
 
-export const userQuery = gql`
-  query User($userId: Int!) {
-    user(userId: $userId) {
+export const getUserQuery = gql`
+  query GetUser($userId: Int!) {
+    getUser(userId: $userId) {
       id
       email
       username

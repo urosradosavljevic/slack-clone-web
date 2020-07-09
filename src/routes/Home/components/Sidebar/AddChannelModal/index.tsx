@@ -11,7 +11,6 @@ import { createChannelMutation } from "../../../../../graphql/channel";
 import { TeamsArray } from "../../../../../constants/types/team";
 import { TEAM_HOME_ROUTE } from "../../../../../constants/routes";
 
-
 interface Props {
   teamId: number;
   open: boolean;

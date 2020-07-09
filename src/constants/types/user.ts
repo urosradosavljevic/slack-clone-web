@@ -6,8 +6,9 @@ export interface MeQuery {
 
 export interface User {
   id: number;
-  name: string;
+  // name: string;
   username: string;
-  email: string;
-  teams: Array<Team>;
+  email?: string;
+  teams?: Array<Team>;
+  __typename?: string;
 }

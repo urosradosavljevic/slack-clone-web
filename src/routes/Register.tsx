@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import { Container, Header, Button } from "semantic-ui-react";
 import { TextInput } from "../shared-components/TextInput";
 import { registerSchema } from "../constants/validationSchema";
-import { TEAM_ROUTE, TEAM_HOME_ROUTE } from "../constants/routes";
+import { TEAM_HOME_ROUTE } from "../constants/routes";
 
 const registerQuery = gql`
   mutation RegisterUser(

@@ -12,7 +12,6 @@ export const WelcomePage: React.FC<Props> = () => {
 
   if (data !== undefined) {
     const { allUsers } = data;
-    console.log(allUsers)
 
     return allUsers.map(
       (user: User) => (

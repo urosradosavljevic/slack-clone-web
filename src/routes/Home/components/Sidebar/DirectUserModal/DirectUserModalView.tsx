@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, FormField, Input, Form } from "semantic-ui-react";
+import { Modal, Button, FormField, Form } from "semantic-ui-react";
 import Downshift from "downshift";
 import { DownshiftList, DownshiftListItem } from "./DownshiftView"
 import { User } from "../../../../../constants/types/user";
@@ -16,7 +16,7 @@ interface Props {
 
 export const DirectUserModalView: React.FC<Props> = ({
   open,
-  onClose, 
+  onClose,
   users,
   teamId
 }) => {
@@ -33,9 +33,9 @@ export const DirectUserModalView: React.FC<Props> = ({
     >
       <Modal.Header content="Search Users" />
       <Modal.Content>
-        <Form.Field style={{ position:"relative" }} >
+        <Form.Field style={{ position: "relative" }} >
           <Downshift
-            onChange={selection =>{
+            onChange={selection => {
               history.push(`${DIRECT_MESSAGE_HOME_ROUTE}${teamId}/${selection.id}`)
               onClose();
             }}
@@ -54,15 +54,15 @@ export const DirectUserModalView: React.FC<Props> = ({
                 <>
                   <label style={{ color: "white" }} {...getLabelProps()}>Enter a users username</label>
                   <div
-                    style={{ display: 'inline-block', position:"relative", width: "100%" }}
-                    {...getRootProps({ refKey: "" }, { suppressRefError: true })}
+                    style={{ display: 'inline-block', position: "relative", width: "100%" }}
+                    {...getRootProps()}
                   >
                     <input {...getInputProps({
                       placeholder: "johnmir"
                     })}
                     />
                   </div>
-                  
+
                   <DownshiftList {...getMenuProps()}>
                     {isOpen
                       ? users

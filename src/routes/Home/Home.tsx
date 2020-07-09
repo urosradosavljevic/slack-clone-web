@@ -1,10 +1,11 @@
 import React from "react";
 import { RouteComponentProps, useHistory } from "react-router-dom";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
-import { meQuery } from "../../graphql/user";
-import { CREATE_TEAM_ROUTE } from "../../constants/routes";
+import { useQuery } from "@apollo/react-hooks";
 import findIndex from "lodash/findIndex";
 
+import { meQuery } from "../../graphql/user";
+import { getUserQuery } from "../../graphql/user";
+import { CREATE_TEAM_ROUTE } from "../../constants/routes";
 import HomeWrapper from "./HomeWrapper";
 import { Header } from "./components/Header";
 import Sidebar from "./components/Sidebar"
@@ -28,8 +29,14 @@ export const Home = ({
   const currentDirectUserId = parseInt(params.userId, 10)
   let currentChannel, currentDirectUser;
 
-  console.log("currentDirectUserId", currentDirectUserId);
   const { loading, data } = useQuery(meQuery);
+  const { loading: loadingUser, data: userData } = useQuery(
+    getUserQuery,
+    {
+      variables: { userId: currentDirectUserId },
+      skip: isNaN(currentDirectUserId)
+    }
+  );
 
   if (loading) {
     return null;
@@ -44,12 +51,12 @@ export const Home = ({
 
   const teamIdx = !!currentTeamId ? findIndex(teams, ["id", currentTeamId]) : 0;
   const currentTeam = teamIdx === -1 ? teams[0] : teams[teamIdx];
-  // find current channel or direct messages user  
 
+  if (loadingUser) return null;
+  // find current channel or direct messages user  
   if (currentDirectUserId) {
-    console.log("direct message")
-    // const userIdx = !!currentDirectUserId ? findIndex(teams, ["id", currentTeamId]) : 0
-    console.log(currentDirectUserId);
+    currentDirectUser = userData.getUser;
+
   } else {
     const currentChannelIdx = !!currentChannelId ? findIndex(currentTeam.channels, ["id", currentChannelId]) : 0
     currentChannel = currentChannelIdx === -1 ? currentTeam.channels[0] : currentTeam.channels[currentChannelIdx]
@@ -59,8 +66,8 @@ export const Home = ({
     <HomeWrapper>
       <Sidebar teams={teams} username={username} currentTeam={currentTeam} />
       {currentDirectUserId ? <>
-        <Header content={"user"} />
-        <DirectMessages teamId={currentTeamId} user={currentDirectUserId} />
+        <Header content={currentDirectUser.username} />
+        <DirectMessages team={currentTeam} userId={currentDirectUser.id} username={currentDirectUser.username} />
       </> : <>
           <Header content={currentChannel.name} />
           <ChannelMessages channelId={currentChannel.id} channelName={currentChannel.name} />
