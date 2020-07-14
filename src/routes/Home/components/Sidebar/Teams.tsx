@@ -6,6 +6,7 @@ import { TEAM_HOME_ROUTE, CREATE_TEAM_ROUTE } from "../../../../constants/routes
 const TeamWrapper = styled.div`
   grid-column: 1;
   grid-row: 1 / 4;
+  overflow-y: scroll;
   background-color: #362234;
   color: #958993;
 `;

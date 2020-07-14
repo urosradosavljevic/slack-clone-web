@@ -10,21 +10,11 @@ import gql from "graphql-tag";
 import { createTeamSchema } from "../constants/validationSchema";
 import { TextInput } from "../shared-components/TextInput";
 import { TEAM_HOME_ROUTE } from "../constants/routes";
+import { createTeamQuery } from "../graphql/team";
+import { meQuery } from "../graphql/user";
+import { TeamsArray } from "../constants/types/team";
+import { cloneDeep } from "lodash";
 
-const createTeamQuery = gql`
-  mutation CreateTeam($name: String!) {
-    createTeam(name: $name) {
-      ok
-      team {
-        id
-      }
-      errors {
-        path
-        message
-      }
-    }
-  }
-`;
 
 interface Props { }
 
@@ -46,12 +36,22 @@ export const CreateTeam: React.FC<Props> = observer(() => {
             variables: {
               name: values.name,
             },
+            update: (store, { data: { createTeam } }) => {
+              const data: { me: TeamsArray } | null = store.readQuery({ query: meQuery });
+              console.log("me query data:", data)
+              console.log("createTeam data:", createTeam)
+              if (data && createTeam.team) {
+                const storeData = cloneDeep(data)
+                storeData.me.teams.push(createTeam.team);
+                store.writeQuery({ query: meQuery, data: storeData });
+              }
+            }
           });
 
           const { ok, errors, team } = data.createTeam;
 
           if (ok) {
-            history.push(`${TEAM_HOME_ROUTE}/${team.id}/0`);
+            history.push(`${TEAM_HOME_ROUTE}/${team.id}/1`);
           } else {
             const err: FormikErrors<FormikValues> = {};
             errors.forEach(({ path, message }: FormikValues) => {

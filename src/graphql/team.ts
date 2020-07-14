@@ -9,3 +9,19 @@ export const teamMembersQuery = gql`
     }
   }
 `;
+
+export const createTeamQuery = gql`
+  mutation CreateTeam($name: String!) {
+    createTeam(name: $name) {
+      ok
+      team {
+        id
+        name
+      }
+      errors {
+        path
+        message
+      }
+    }
+  }
+`;
