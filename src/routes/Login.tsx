@@ -9,7 +9,7 @@ import { observer } from "mobx-react";
 // import { useLoginStoreContext } from "../stores/LoginStore";
 import { loginSchema } from "../constants/validationSchema";
 import { TextInput } from "../shared-components/TextInput";
-import { WELCOME_ROUTE } from "../constants/routes";
+import { TEAM_HOME_ROUTE } from "../constants/routes";
 
 const loginQuery = gql`
   mutation Login($email: String!, $password: String!) {
@@ -50,7 +50,7 @@ export const Login: React.FC<Props> = observer(() => {
           const { ok, errors, token, refreshToken } = data.login;
 
           if (ok) {
-            history.push(WELCOME_ROUTE);
+            history.push(TEAM_HOME_ROUTE);
             localStorage.setItem("token", token);
             localStorage.setItem("refreshToken", refreshToken);
           } else {
