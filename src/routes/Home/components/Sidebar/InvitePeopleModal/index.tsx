@@ -7,6 +7,9 @@ import { useMutation } from '@apollo/react-hooks';
 import { createTeamMemberSchema } from "../../../../../constants/validationSchema"
 import { InvitePeopleModalView } from "./InvitePeopleModalView"
 import { TEAM_HOME_ROUTE } from '../../../../../constants/routes';
+import { TeamsArray } from '../../../../../constants/types/team';
+import { teamMembersQuery } from '../../../../../graphql/team';
+import { findIndex, cloneDeep } from 'lodash';
 
 const createTeamMemberMutation = gql`
   mutation CreateTeamMembe($email: String!, $teamId: Int!) {
@@ -43,7 +46,7 @@ const InvitePeopleModal: React.FC<Props> = ({ open, onClose, teamId }) => {
                         variables: {
                             teamId,
                             email: values.email,
-                        }
+                        }, refetchQueries: [{ query: teamMembersQuery, variables: { teamId } }]
                     });
 
                     const { ok, errors } = data.createTeamMember;
@@ -62,12 +65,13 @@ const InvitePeopleModal: React.FC<Props> = ({ open, onClose, teamId }) => {
                     }
                 }}
             >
-                {({ isSubmitting, submitForm }) => (
+                {({ isSubmitting, submitForm, resetForm }) => (
                     <InvitePeopleModalView
                         open={open}
                         onClose={onClose}
                         isSubmitting={isSubmitting}
                         submitForm={submitForm}
+                        resetForm={resetForm}
                     />
                 )}
             </Formik>

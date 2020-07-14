@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import findIndex from "lodash/findIndex";
+import cloneDeep from "lodash/cloneDeep";
+
 
 import { directMessagesQuery, newDirectMessageSubscription, sendDirectMessageMutation } from '../../../../../graphql/directMessage';
 import { meQuery } from "../../../../../graphql/user";
@@ -34,13 +36,15 @@ const DirectMessages: React.FC<Props> = ({ team, userId, username }) => {
                 if (data) {
                     const teamIdx = findIndex(data.me.teams, ["id", team.id]);
                     const notAlreadyThere = data.me.teams[teamIdx].directMessagedMembers.every(m => m.id !== userId);
+                    console.log("notAlreadyThere", notAlreadyThere);
                     if (notAlreadyThere) {
-                        data.me.teams[teamIdx].directMessagedMembers.push({
-                            __typename: 'User',
+                        const storeData = cloneDeep(data)
+                        storeData.me.teams[teamIdx].directMessagedMembers.push({
                             id: userId,
                             username,
+                            __typename: 'User',
                         });
-                        store.writeQuery({ query: meQuery, data });
+                        store.writeQuery({ query: meQuery, data: storeData });
                     }
                 }
             },

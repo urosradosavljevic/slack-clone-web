@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
 import { SideBarList, SideBarListItem, SideBarListHeader } from "./TeamSidebarView";
 import { Team } from "../../../../../constants/types/team";
 import { DIRECT_MESSAGE_HOME_ROUTE } from "../../../../../constants/routes";

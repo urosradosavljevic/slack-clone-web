@@ -7,6 +7,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   submitForm: () => void;
+  resetForm: () => void;
   isSubmitting: boolean;
 }
 
@@ -15,6 +16,7 @@ export const InvitePeopleModalView: React.FC<Props> = ({
   onClose,
   isSubmitting,
   submitForm,
+  resetForm
 }) => {
   return (
 
@@ -23,7 +25,7 @@ export const InvitePeopleModalView: React.FC<Props> = ({
       className="ui form"
       onSubmit={(e: Event) => { e.preventDefault(); submitForm(); }}
       open={open}
-      onClose={onClose}
+      onClose={() => { onClose(); resetForm(); }}
       basic
       size="small"
     >
@@ -40,7 +42,7 @@ export const InvitePeopleModalView: React.FC<Props> = ({
       </Modal.Content>
       <Modal.Actions>
         <FormField>
-          <Button type="button" inverted onClick={onClose}>
+          <Button type="button" inverted onClick={() => { onClose(); resetForm(); }}>
             Cancel
           </Button>
           <Button type="submit" inverted loading={isSubmitting}>

@@ -71,12 +71,13 @@ const AddChannelModal: React.FC<Props> = ({ teamId, open, onClose }) => {
           }
         }}
       >
-        {({ isSubmitting, submitForm }) => (
+        {({ isSubmitting, submitForm, resetForm }) => (
           <AddChannelModalView
             open={open}
             onClose={onClose}
             isSubmitting={isSubmitting}
             submitForm={submitForm}
+            resetForm={resetForm}
           />
         )}
       </Formik>
