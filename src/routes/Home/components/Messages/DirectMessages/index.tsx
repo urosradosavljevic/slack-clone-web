@@ -25,6 +25,7 @@ const DirectMessages: React.FC<Props> = ({ team, userId, username }) => {
     })
 
     const submit = async (values: { text: string }, setSubmitting: (arg0: boolean) => void) => {
+        if (values.text === "") return;
         const { data } = await sendDirectMessage({
             variables: {
                 receiverId: userId,

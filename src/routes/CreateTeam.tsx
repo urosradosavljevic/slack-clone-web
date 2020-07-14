@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { Formik, Form, Field, FormikErrors, FormikValues } from "formik";
 import { Container, Header, Button } from "semantic-ui-react";
 import { observer } from "mobx-react";
-import gql from "graphql-tag";
 
 // import { useLoginStoreContext } from "../stores/LoginStore";
 import { createTeamSchema } from "../constants/validationSchema";

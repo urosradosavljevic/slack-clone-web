@@ -7,9 +7,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { createTeamMemberSchema } from "../../../../../constants/validationSchema"
 import { InvitePeopleModalView } from "./InvitePeopleModalView"
 import { TEAM_HOME_ROUTE } from '../../../../../constants/routes';
-import { TeamsArray } from '../../../../../constants/types/team';
 import { teamMembersQuery } from '../../../../../graphql/team';
-import { findIndex, cloneDeep } from 'lodash';
 
 const createTeamMemberMutation = gql`
   mutation CreateTeamMembe($email: String!, $teamId: Int!) {

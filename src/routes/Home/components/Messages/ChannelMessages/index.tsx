@@ -20,6 +20,7 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
     })
 
     const submit = async (values: { text: string }, setSubmitting: (arg0: boolean) => void) => {
+        if (values.text === "") return;
         const { data } = await sendMessage({
             variables: {
                 channelId,

@@ -2,6 +2,7 @@ import React from 'react'
 import { Comment } from 'semantic-ui-react';
 import { Message } from '../../../../constants/types/message';
 import MessagesWrapper from './MessagesWrapper';
+import { FileUpload } from '../FileUpload';
 
 interface Props {
     messages: Array<Message>
@@ -21,9 +22,14 @@ const messageListItem = (m: Message, i: number) => <Comment key={i}>
 </Comment>
 
 export const MessagesView: React.FC<Props> = ({ messages }) => {
-    return (<MessagesWrapper>
-        <Comment.Group>
-            {messages.map(messageListItem)}
-        </Comment.Group>
-    </MessagesWrapper>);
+    return (
+        <FileUpload >
+            <MessagesWrapper>
+                <Comment.Group>
+                    {messages.map(messageListItem)}
+                </Comment.Group>
+            </MessagesWrapper>
+        </FileUpload>
+    );
+
 }
