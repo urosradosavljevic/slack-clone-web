@@ -36,7 +36,7 @@ const DirectMessages: React.FC<Props> = ({ team, userId, username }) => {
                 if (data) {
                     const teamIdx = findIndex(data.me.teams, ["id", team.id]);
                     const notAlreadyThere = data.me.teams[teamIdx].directMessagedMembers.every(m => m.id !== userId);
-                    console.log("notAlreadyThere", notAlreadyThere);
+
                     if (notAlreadyThere) {
                         const storeData = cloneDeep(data)
                         storeData.me.teams[teamIdx].directMessagedMembers.push({

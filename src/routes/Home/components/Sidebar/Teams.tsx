@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { TEAM_HOME_ROUTE } from "../../../../constants/routes";
+import { TEAM_HOME_ROUTE, CREATE_TEAM_ROUTE } from "../../../../constants/routes";
 
 const TeamWrapper = styled.div`
   grid-column: 1;
@@ -54,7 +54,12 @@ const teamItem = ({ id, letter }: TeamItemProps) => (
 export const Teams: React.FC<Props> = ({ teams }) => {
   return (
     <TeamWrapper>
-      <TeamList>{teams.map(teamItem)}</TeamList>
+      <TeamList>
+        {teams.map(teamItem)}
+        <Link key={`create-team`} to={CREATE_TEAM_ROUTE}>
+          <TeamListItem>+</TeamListItem>
+        </Link>
+      </TeamList>
     </TeamWrapper>
   );
 };
