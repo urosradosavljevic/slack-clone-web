@@ -8,5 +8,7 @@ export interface Message {
     id: number;
     username: string;
   };
+  url: string;
+  filetype: string;
   createdAt: string;
 }

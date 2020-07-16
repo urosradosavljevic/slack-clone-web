@@ -3,9 +3,11 @@ import { Comment } from 'semantic-ui-react';
 import { Message } from '../../../../constants/types/message';
 import MessagesWrapper from './MessagesWrapper';
 import { FileUpload } from '../FileUpload';
+import { FileDisplay } from '../../../../shared-components/FileDisplay';
 
 interface Props {
     messages: Array<Message>
+    channelId: number;
 }
 
 const messageListItem = (m: Message, i: number) => <Comment key={i}>
@@ -14,16 +16,15 @@ const messageListItem = (m: Message, i: number) => <Comment key={i}>
         <Comment.Metadata>
             <div>{m.createdAt}</div>
         </Comment.Metadata>
-        <Comment.Text>{m.text}</Comment.Text>
-        <Comment.Actions>
-            <Comment.Action>Reply</Comment.Action>
-        </Comment.Actions>
+        {m.url ?
+            <FileDisplay url={m.url} filetype={m.filetype} /> :
+            <Comment.Text>{m.text}</Comment.Text>}
     </Comment.Content>
 </Comment>
 
-export const MessagesView: React.FC<Props> = ({ messages }) => {
+export const MessagesView: React.FC<Props> = ({ messages, channelId }) => {
     return (
-        <FileUpload >
+        <FileUpload channelId={channelId} >
             <MessagesWrapper>
                 <Comment.Group>
                     {messages.map(messageListItem)}

@@ -1,4 +1,3 @@
-import { HttpLink } from "apollo-link-http";
 import { setContext } from "apollo-link-context";
 import { ApolloLink } from "apollo-link";
 import { WebSocketLink } from "apollo-link-ws";
@@ -6,9 +5,13 @@ import { split } from "apollo-link";
 import { getMainDefinition } from "apollo-utilities";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
+import { createUploadLink } from "apollo-upload-client";
 
-// http server link
-const httpLink = new HttpLink({ uri: "http://localhost:4000/" });
+// httpUpload server link
+const httpUploadLink = createUploadLink({
+  uri: "http://localhost:4000/",
+  headers: { "keep-alive": true },
+});
 
 // link for inserting token from local storage into request header
 const middlewareLink = setContext(() => ({
@@ -43,7 +46,7 @@ const afterwareLink = new ApolloLink((operation, forward) => {
 
 // links concatenation
 const httpLinkWithMiddleware = afterwareLink.concat(
-  middlewareLink.concat(httpLink)
+  middlewareLink.concat(httpUploadLink)
 );
 
 // web socket subscription link

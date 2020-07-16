@@ -8,9 +8,10 @@ interface Props {
     submit: (values: { text: string },
         setSubmitting: (arg0: boolean) => void) => void;
     placeholder: string;
+    channelId?: number;
 }
 
-const SendMessage: React.FC<Props> = ({ submit, placeholder }) => {
+const SendMessage: React.FC<Props> = ({ submit, placeholder, channelId }) => {
 
     return (
         <>
@@ -24,7 +25,7 @@ const SendMessage: React.FC<Props> = ({ submit, placeholder }) => {
             >
                 {({ isSubmitting, submitForm }) => (
                     <Form>
-                        <SendMessageView placeholder={placeholder} />
+                        <SendMessageView channelId={channelId} placeholder={placeholder} />
                     </Form>
                 )}
             </Formik>

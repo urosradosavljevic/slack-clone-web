@@ -9,6 +9,8 @@ export const channelMessagesQuery = gql`
         username
       }
       createdAt
+      url
+      filetype
     }
   }
 `;
@@ -22,13 +24,15 @@ export const newChannelMessageSubscription = gql`
         username
       }
       createdAt
+      url
+      filetype
     }
   }
 `;
 
 export const sendMessageMutation = gql`
-  mutation SendMessage($channelId: Int!, $text: String!) {
-    sendMessage(channelId: $channelId, text: $text) {
+  mutation SendMessage($channelId: Int!, $text: String, $file: Upload) {
+    sendMessage(channelId: $channelId, text: $text, file: $file) {
       ok
       errors {
         path
@@ -41,6 +45,8 @@ export const sendMessageMutation = gql`
           id
           username
         }
+        url
+        filetype
       }
     }
   }

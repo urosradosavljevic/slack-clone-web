@@ -60,8 +60,8 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
 
     return (
         <>
-            <MessagesView messages={data.channelMessages} />
-            <SendMessage submit={submit} placeholder={channelName} />
+            <MessagesView channelId={channelId} messages={data.channelMessages} />
+            <SendMessage submit={submit} channelId={channelId} placeholder={channelName} />
         </>
     );
 }

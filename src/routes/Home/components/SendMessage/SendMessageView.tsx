@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "formik";
-import { Button, Icon } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import styled from "styled-components";
 
 import { TextInput } from "../../../../shared-components/TextInput";
@@ -16,12 +16,13 @@ const SendMessageWrapper = styled.div`
 
 interface Props {
   placeholder: string;
+  channelId?: number;
 }
 
-export const SendMessageView: React.FC<Props> = ({ placeholder }) => {
+export const SendMessageView: React.FC<Props> = ({ placeholder, channelId }) => {
   return (
     <SendMessageWrapper>
-      <FileUpload button={true}>
+      <FileUpload button={true} channelId={channelId}>
         <Button icon='plus' />
       </FileUpload>
       <Field

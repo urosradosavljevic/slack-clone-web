@@ -1,19 +1,30 @@
 import React, { useCallback } from 'react'
 import { useDropzone } from "react-dropzone"
+import { useMutation } from '@apollo/react-hooks';
+import { sendMessageMutation } from '../../../../graphql/message';
 
 interface Props {
     button?: boolean;
+    channelId?: number;
 }
 
-export const FileUpload: React.FC<Props> = ({ children, button }) => {
-    const onDrop = useCallback(acceptedFiles => {
-        console.log(acceptedFiles)
+export const FileUpload: React.FC<Props> = ({ children, button, channelId }) => {
+
+    const [sendMessage] = useMutation(sendMessageMutation);
+    console.log("fileUpload channelId", channelId);
+    const onDrop = useCallback(async acceptedFiles => {
+        const { data } = await sendMessage({
+            variables: {
+                channelId,
+                file: acceptedFiles[0]
+            },
+        });
     }, [])
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, noClick: button ? false : true })
 
     return (
-        <div {...getRootProps()}
+        <div {...getRootProps({ onSubmit: () => { } })}
             style={!button ? {
                 position: "relative",
                 display: "flex",
