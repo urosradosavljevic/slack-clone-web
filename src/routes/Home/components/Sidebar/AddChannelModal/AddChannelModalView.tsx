@@ -13,6 +13,7 @@ interface Props {
     privateMembers: never[];
   };
   teamId: number;
+  myId: number;
   onClose: () => void;
   submitForm: () => void;
   resetForm: () => void;
@@ -22,13 +23,14 @@ interface Props {
 
 export const AddChannelModalView: React.FC<Props> = ({
   open,
-  onClose,
   isSubmitting,
+  values,
+  myId,
+  teamId,
+  onClose,
   submitForm,
   setFieldValue,
   resetForm,
-  values,
-  teamId,
 }) => {
   return (
 
@@ -61,7 +63,7 @@ export const AddChannelModalView: React.FC<Props> = ({
             component={RadioToggle}
           />
         </div>
-        {!values.public && <MultiSelectUsers setFieldValue={setFieldValue} members={values.privateMembers} teamId={teamId} />}
+        {!values.public && <MultiSelectUsers myId={myId} setFieldValue={setFieldValue} members={values.privateMembers} teamId={teamId} />}
       </Modal.Content>
       <Modal.Actions>
         <FormField>

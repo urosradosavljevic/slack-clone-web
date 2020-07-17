@@ -47,7 +47,7 @@ export const Home = ({
     history.push(CREATE_TEAM_ROUTE)
     return null;
   }
-  const { me: { username, teams } } = data.me && data;
+  const { me: { id, username, teams } } = data.me && data;
 
   const teamIdx = !!currentTeamId ? findIndex(teams, ["id", currentTeamId]) : 0;
   const currentTeam = teamIdx === -1 ? teams[0] : teams[teamIdx];
@@ -65,7 +65,7 @@ export const Home = ({
 
   return (
     <HomeWrapper>
-      <Sidebar teams={teams} username={username} currentTeam={currentTeam} />
+      <Sidebar teams={teams} me={{ id, username }} currentTeam={currentTeam} />
       {currentDirectUserId ? <>
         <Header content={currentDirectUser.username} />
         <DirectMessages team={currentTeam} userId={currentDirectUser.id} username={currentDirectUser.username} />

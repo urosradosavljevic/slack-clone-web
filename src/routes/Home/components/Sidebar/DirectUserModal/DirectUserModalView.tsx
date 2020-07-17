@@ -1,7 +1,5 @@
 import React from "react";
-import { Modal, Button, FormField, Form } from "semantic-ui-react";
-import Downshift from "downshift";
-import { DownshiftList, DownshiftListItem } from "./DownshiftView"
+import { Modal, Button, FormField, Form, Dropdown } from "semantic-ui-react";
 import { User } from "../../../../../constants/types/user";
 import { DIRECT_MESSAGE_HOME_ROUTE } from "../../../../../constants/routes";
 import { useHistory } from "react-router-dom";
@@ -9,6 +7,7 @@ import { useHistory } from "react-router-dom";
 
 interface Props {
   open: boolean;
+  myId: number;
   teamId: number;
   users: Array<User>;
   onClose: () => void;
@@ -16,6 +15,7 @@ interface Props {
 
 export const DirectUserModalView: React.FC<Props> = ({
   open,
+  myId,
   onClose,
   users,
   teamId
@@ -33,62 +33,17 @@ export const DirectUserModalView: React.FC<Props> = ({
     >
       <Modal.Header content="Search Users" />
       <Modal.Content>
-        <Form.Field style={{ position: "relative" }} >
-          <Downshift
-            onChange={selection => {
-              history.push(`${DIRECT_MESSAGE_HOME_ROUTE}${teamId}/${selection.id}`)
-              onClose();
-            }}
-          >
-            {({
-              getInputProps,
-              getItemProps,
-              getLabelProps,
-              getMenuProps,
-              getRootProps,
-              isOpen,
-              inputValue,
-              highlightedIndex,
-              selectedItem,
-            }) => (
-                <>
-                  <label style={{ color: "white" }} {...getLabelProps()}>Enter a users username</label>
-                  <div
-                    style={{ display: 'inline-block', position: "relative", width: "100%" }}
-                    {...getRootProps()}
-                  >
-                    <input {...getInputProps({
-                      placeholder: "johnmir"
-                    })}
-                    />
-                  </div>
-
-                  <DownshiftList {...getMenuProps()}>
-                    {isOpen
-                      ? users
-                        .filter(item => !inputValue || item.username.includes(inputValue))
-                        .map((item, index) => (
-                          <DownshiftListItem
-                            {...getItemProps({
-                              key: item.id,
-                              index,
-                              item,
-                              style: {
-                                backgroundColor:
-                                  highlightedIndex === index ? 'lightgray' : 'white',
-                                fontWeight: selectedItem === item ? 'bold' : 'normal',
-                              },
-                            })}
-                          >
-                            {item.username}
-                          </DownshiftListItem>
-                        ))
-                      : null}
-                  </DownshiftList>
-                </>
-              )}
-          </Downshift>
-        </Form.Field>
+        <Dropdown
+          placeholder='username'
+          fluid
+          search
+          selection
+          onChange={(e, { value }) => {
+            history.push(`${DIRECT_MESSAGE_HOME_ROUTE}${teamId}/${value}`)
+            onClose();
+          }}
+          options={users.filter(tm => tm.id !== myId).map(tm => ({ key: tm.id, value: tm.id, text: tm.username }))}
+        />);
       </Modal.Content>
       <Modal.Actions>
         <FormField>

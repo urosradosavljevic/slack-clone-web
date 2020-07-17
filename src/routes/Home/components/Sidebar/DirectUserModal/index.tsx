@@ -6,11 +6,12 @@ import { teamMembersQuery } from "../../../../../graphql/team";
 
 interface Props {
   teamId: number;
+  myId: number;
   open: boolean;
   onClose: () => void;
 }
 
-const DirectUserModal: React.FC<Props> = ({ open, onClose, teamId }) => {
+const DirectUserModal: React.FC<Props> = ({ open, onClose, teamId, myId }) => {
 
   const { loading, data } = useQuery(teamMembersQuery, {
     variables: { teamId }
@@ -23,6 +24,7 @@ const DirectUserModal: React.FC<Props> = ({ open, onClose, teamId }) => {
   return (
     <DirectUserModalView
       teamId={teamId}
+      myId={myId}
       users={data.teamMembers}
       open={open}
       onClose={onClose}

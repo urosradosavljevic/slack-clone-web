@@ -13,10 +13,11 @@ import { TEAM_HOME_ROUTE } from "../../../../../constants/routes";
 
 interface Props {
   teamId: number;
+  myId: number;
   open: boolean;
   onClose: () => void;
 }
-const AddChannelModal: React.FC<Props> = ({ teamId, open, onClose }) => {
+const AddChannelModal: React.FC<Props> = ({ teamId, myId, open, onClose }) => {
   const history = useHistory();
   const [createChannel] = useMutation(createChannelMutation);
 
@@ -77,6 +78,7 @@ const AddChannelModal: React.FC<Props> = ({ teamId, open, onClose }) => {
           <AddChannelModalView
             open={open}
             onClose={onClose}
+            myId={myId}
             isSubmitting={isSubmitting}
             submitForm={submitForm}
             resetForm={resetForm}
