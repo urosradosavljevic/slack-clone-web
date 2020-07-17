@@ -7,6 +7,7 @@ interface Props {
   inactiveTitle: string;
   name: string;
   type: "radio" | "checkbox" | undefined;
+  setFieldValue: (field: string, value: any) => void;
 }
 
 export const RadioToggle: React.FC<Props & FieldProps> = ({
@@ -15,6 +16,7 @@ export const RadioToggle: React.FC<Props & FieldProps> = ({
   type,
   inactiveTitle,
   field,
+  setFieldValue,
   form,
   ...props
 }) => {
@@ -22,12 +24,11 @@ export const RadioToggle: React.FC<Props & FieldProps> = ({
     <FormField>
       <Checkbox
         toggle
-        label={field.value ? title : inactiveTitle}
         name={name}
         type={type}
-        onChange={field.onChange}
+        onChange={() => setFieldValue(field.name, !field.checked)}
+        checked={!field.value}
         {...props}
-        checked={field.value}
       />
     </FormField>
   );

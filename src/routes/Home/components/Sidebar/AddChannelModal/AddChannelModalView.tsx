@@ -3,12 +3,20 @@ import { Modal, Button, FormField } from "semantic-ui-react";
 import { Form, Field } from "formik";
 import { TextInput } from "../../../../../shared-components/TextInput";
 import { RadioToggle } from "../../../../../shared-components/RadioToggle";
+import { MultiSelectUsers } from "./MultiSelectUsers";
 
 interface Props {
   open: boolean;
+  values: {
+    name: string;
+    public: boolean;
+    privateMembers: never[];
+  };
+  teamId: number;
   onClose: () => void;
   submitForm: () => void;
   resetForm: () => void;
+  setFieldValue: (field: string, value: any) => void;
   isSubmitting: boolean;
 }
 
@@ -17,7 +25,10 @@ export const AddChannelModalView: React.FC<Props> = ({
   onClose,
   isSubmitting,
   submitForm,
+  setFieldValue,
   resetForm,
+  values,
+  teamId,
 }) => {
   return (
 
@@ -36,17 +47,21 @@ export const AddChannelModalView: React.FC<Props> = ({
           fluid
           inverted
           name="name"
-          title="Name"
           placeholder="front desk"
           component={TextInput}
         />
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          Private
         <Field
-          name="public"
-          title="Public"
-          type="checkbox"
-          inactiveTitle="Private"
-          component={RadioToggle}
-        />
+            style={{ paddingLeft: "5px" }}
+            name="public"
+            type="checkbox"
+            inactiveTitle=""
+            setFieldValue={setFieldValue}
+            component={RadioToggle}
+          />
+        </div>
+        {!values.public && <MultiSelectUsers setFieldValue={setFieldValue} members={values.privateMembers} teamId={teamId} />}
       </Modal.Content>
       <Modal.Actions>
         <FormField>

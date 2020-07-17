@@ -25,7 +25,8 @@ const AddChannelModal: React.FC<Props> = ({ teamId, open, onClose }) => {
       <Formik
         initialValues={{
           name: "",
-          public: false,
+          public: true,
+          privateMembers: [],
         }}
         validationSchema={createChannelSchema}
         onSubmit={async (values, { setSubmitting, setErrors }) => {
@@ -33,6 +34,7 @@ const AddChannelModal: React.FC<Props> = ({ teamId, open, onClose }) => {
             variables: {
               name: values.name,
               public: values.public,
+              members: values.public ? [] : values.privateMembers,
               teamId: teamId,
             },
             update: (store, { data: { createChannel } }) => {
@@ -71,13 +73,16 @@ const AddChannelModal: React.FC<Props> = ({ teamId, open, onClose }) => {
           }
         }}
       >
-        {({ isSubmitting, submitForm, resetForm }) => (
+        {({ isSubmitting, submitForm, resetForm, values, setFieldValue }) => (
           <AddChannelModalView
             open={open}
             onClose={onClose}
             isSubmitting={isSubmitting}
             submitForm={submitForm}
             resetForm={resetForm}
+            setFieldValue={setFieldValue}
+            values={values}
+            teamId={teamId}
           />
         )}
       </Formik>

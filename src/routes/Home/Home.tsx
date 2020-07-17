@@ -60,6 +60,7 @@ export const Home = ({
   } else {
     const currentChannelIdx = !!currentChannelId ? findIndex(currentTeam.channels, ["id", currentChannelId]) : 0
     currentChannel = currentChannelIdx === -1 ? currentTeam.channels[0] : currentTeam.channels[currentChannelIdx]
+
   }
 
   return (

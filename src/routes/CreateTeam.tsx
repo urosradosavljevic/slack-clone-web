@@ -37,8 +37,7 @@ export const CreateTeam: React.FC<Props> = observer(() => {
             },
             update: (store, { data: { createTeam } }) => {
               const data: { me: TeamsArray } | null = store.readQuery({ query: meQuery });
-              console.log("me query data:", data)
-              console.log("createTeam data:", createTeam)
+
               if (data && createTeam.team) {
                 const storeData = cloneDeep(data)
                 storeData.me.teams.push(createTeam.team);

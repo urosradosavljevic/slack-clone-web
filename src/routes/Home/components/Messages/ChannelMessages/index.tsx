@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from 'react'
+import React, { useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 
 import { channelMessagesQuery } from '../../../../../graphql/message';

@@ -11,14 +11,15 @@ interface Props {
 export const FileUpload: React.FC<Props> = ({ children, button, channelId }) => {
 
     const [sendMessage] = useMutation(sendMessageMutation);
-    console.log("fileUpload channelId", channelId);
-    const onDrop = useCallback(async acceptedFiles => {
+
+    const onDrop = useCallback(async (acceptedFiles) => {
         const { data } = await sendMessage({
             variables: {
                 channelId,
                 file: acceptedFiles[0]
             },
         });
+        const { ok } = data.sendMessage;
     }, [])
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, noClick: button ? false : true })

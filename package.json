@@ -24,7 +24,6 @@
     "apollo-link-http": "^1.5.17",
     "apollo-link-ws": "^1.0.20",
     "apollo-upload-client": "^13.0.0",
-    "axios": "^0.19.2",
     "downshift": "^5.4.5",
     "formik": "^2.1.4",
     "graphql": "^15.0.0",
