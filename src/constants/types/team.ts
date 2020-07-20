@@ -9,6 +9,5 @@ export interface Team {
   id: number;
   name: string;
   channels: Array<Channel>;
-  directMessagedMembers: Array<User>;
   admin: boolean;
 }

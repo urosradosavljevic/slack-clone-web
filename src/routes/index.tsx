@@ -59,11 +59,6 @@ export default () => {
         <Route path={routes.REGISTER_ROUTE} exact component={Register} />
         <Route path={routes.LOGIN_ROUTE} exact component={Login} />
         <PrivateRoute
-          path={routes.DIRECT_MESSAGE_ROUTE}
-          exact
-          component={Home}
-        />
-        <PrivateRoute
           path={routes.TEAM_ROUTE}
           exact
           component={Home}

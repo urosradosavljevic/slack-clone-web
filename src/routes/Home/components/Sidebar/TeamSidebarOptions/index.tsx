@@ -17,7 +17,7 @@ interface Props {
     username: string;
     onAddChannelClick: () => void;
     onInvitePeopleClick: () => void;
-    onAddDirectUserClick: () => void;
+    onAddDirectChannelClick: () => void;
 }
 
 
@@ -26,7 +26,7 @@ export const TeamSidebarOptions: React.FC<Props> = ({
     username,
     onAddChannelClick,
     onInvitePeopleClick,
-    onAddDirectUserClick
+    onAddDirectChannelClick
 }) => {
     return (
         <TeamOptionsWrapper>
@@ -38,7 +38,7 @@ export const TeamSidebarOptions: React.FC<Props> = ({
 
             <TeamUsers
                 currentTeam={currentTeam}
-                setOpenDirectUserModal={onAddDirectUserClick}
+                setOpenDirectChannelModal={onAddDirectChannelClick}
             />
 
             {currentTeam.admin && <PushRight>

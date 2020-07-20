@@ -4,13 +4,11 @@ import { useQuery } from "@apollo/react-hooks";
 import findIndex from "lodash/findIndex";
 
 import { meQuery } from "../../graphql/user";
-import { getUserQuery } from "../../graphql/user";
 import { CREATE_TEAM_ROUTE } from "../../constants/routes";
 import HomeWrapper from "./HomeWrapper";
 import { Header } from "./components/Header";
 import Sidebar from "./components/Sidebar"
 import ChannelMessages from "./components/Messages/ChannelMessages";
-import DirectMessages from "./components/Messages/DirectMessages";
 
 interface Params {
   match: string;
@@ -26,17 +24,9 @@ export const Home = ({
 
   const currentTeamId = parseInt(params.teamId, 10)
   const currentChannelId = parseInt(params.channelId, 10)
-  const currentDirectUserId = parseInt(params.userId, 10)
-  let currentChannel, currentDirectUser;
+  let currentChannel;
 
   const { loading, data } = useQuery(meQuery);
-  const { loading: loadingUser, data: userData } = useQuery(
-    getUserQuery,
-    {
-      variables: { userId: currentDirectUserId },
-      skip: isNaN(currentDirectUserId)
-    }
-  );
 
   if (loading) {
     return null;
@@ -52,27 +42,15 @@ export const Home = ({
   const teamIdx = !!currentTeamId ? findIndex(teams, ["id", currentTeamId]) : 0;
   const currentTeam = teamIdx === -1 ? teams[0] : teams[teamIdx];
 
-  if (loadingUser) return null;
-  // find current channel or direct messages user  
-  if (currentDirectUserId) {
-    currentDirectUser = userData.getUser;
-
-  } else {
-    const currentChannelIdx = !!currentChannelId ? findIndex(currentTeam.channels, ["id", currentChannelId]) : 0
-    currentChannel = currentChannelIdx === -1 ? currentTeam.channels[0] : currentTeam.channels[currentChannelIdx]
-
-  }
+  // find current channel 
+  const currentChannelIdx = !!currentChannelId ? findIndex(currentTeam.channels, ["id", currentChannelId]) : 0
+  currentChannel = currentChannelIdx === -1 ? currentTeam.channels[0] : currentTeam.channels[currentChannelIdx]
 
   return (
     <HomeWrapper>
       <Sidebar teams={teams} me={{ id, username }} currentTeam={currentTeam} />
-      {currentDirectUserId ? <>
-        <Header content={currentDirectUser.username} />
-        <DirectMessages team={currentTeam} userId={currentDirectUser.id} username={currentDirectUser.username} />
-      </> : <>
-          <Header content={currentChannel.name} />
-          <ChannelMessages channelId={currentChannel.id} channelName={currentChannel.name} />
-        </>}
+      <Header content={currentChannel.name} />
+      <ChannelMessages channelId={currentChannel.id} channelName={currentChannel.name} />
     </HomeWrapper>
   );
 };

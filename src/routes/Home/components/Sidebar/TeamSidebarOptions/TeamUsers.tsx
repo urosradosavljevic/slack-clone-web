@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 
 import { SideBarList, SideBarListItem, SideBarListHeader } from "./TeamSidebarView";
 import { Team } from "../../../../../constants/types/team";
-import { DIRECT_MESSAGE_HOME_ROUTE } from "../../../../../constants/routes";
+import { TEAM_HOME_ROUTE } from "../../../../../constants/routes";
 import { AddCircleButton } from "../../../../../shared-components/AddCircleButton";
 
 interface Props {
     currentTeam: Team;
-    setOpenDirectUserModal: () => void;
+    setOpenDirectChannelModal: () => void;
 }
 
 
@@ -26,14 +26,14 @@ const Bubble = ({ online = true }: { online: boolean }) =>
 
 export const TeamUsers: React.FC<Props> = ({
     currentTeam,
-    setOpenDirectUserModal,
+    setOpenDirectChannelModal,
 }) => {
 
-    const user = ({ id, username }: { id: number, username: string }) => (
-        <Link key={`user-${id}`} to={`${DIRECT_MESSAGE_HOME_ROUTE}${currentTeam.id}/${id}`}>
+    const user = ({ id, name }: { id: number, name: string }) => (
+        <Link key={`dmChannel-${id}`} to={`${TEAM_HOME_ROUTE}/${currentTeam.id}/${id}`}>
             <SideBarListItem >
                 <Bubble online={true} />
-                {username}
+                {name}
             </SideBarListItem>
         </Link>
     )
@@ -44,10 +44,10 @@ export const TeamUsers: React.FC<Props> = ({
                 <SideBarListHeader>
                     Direct Messages
                     <AddCircleButton
-                        onClick={setOpenDirectUserModal}
+                        onClick={setOpenDirectChannelModal}
                     />
                 </SideBarListHeader>
-                {currentTeam.directMessagedMembers.map(user)}
+                {currentTeam.channels.filter(c => c.dm).map(user)}
             </SideBarList>
         </>
     )

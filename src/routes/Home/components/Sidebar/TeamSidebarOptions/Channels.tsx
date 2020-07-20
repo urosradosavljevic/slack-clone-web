@@ -45,7 +45,7 @@ export const Channels: React.FC<Props> = ({
                 onClick={onAddChannelClick}
               />}
           </SideBarListHeader>
-          {currentTeam.channels.map(c => channelItem(c, currentTeam.id))}
+          {currentTeam.channels.filter(c => !c.dm).map(c => channelItem(c, currentTeam.id))}
         </SideBarList>
       </div>
     </>

@@ -63,7 +63,15 @@ export const AddChannelModalView: React.FC<Props> = ({
             component={RadioToggle}
           />
         </div>
-        {!values.public && <MultiSelectUsers myId={myId} setFieldValue={setFieldValue} members={values.privateMembers} teamId={teamId} />}
+        {!values.public &&
+          <MultiSelectUsers
+            placeholder={"Select users to add to channel"}
+            field={"privateMembers"}
+            myId={myId}
+            setFieldValue={setFieldValue}
+            members={values.privateMembers}
+            teamId={teamId}
+          />}
       </Modal.Content>
       <Modal.Actions>
         <FormField>

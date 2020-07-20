@@ -31,6 +31,7 @@ const AddChannelModal: React.FC<Props> = ({ teamId, myId, open, onClose }) => {
         }}
         validationSchema={createChannelSchema}
         onSubmit={async (values, { setSubmitting, setErrors }) => {
+
           const { data } = await createChannel({
             variables: {
               name: values.name,
@@ -39,7 +40,7 @@ const AddChannelModal: React.FC<Props> = ({ teamId, myId, open, onClose }) => {
               teamId: teamId,
             },
             update: (store, { data: { createChannel } }) => {
-              // updating cache, less api call 
+
               const { ok, channel } = createChannel;
 
               if (!ok) {
@@ -76,15 +77,15 @@ const AddChannelModal: React.FC<Props> = ({ teamId, myId, open, onClose }) => {
       >
         {({ isSubmitting, submitForm, resetForm, values, setFieldValue }) => (
           <AddChannelModalView
+            values={values}
+            teamId={teamId}
             open={open}
-            onClose={onClose}
             myId={myId}
             isSubmitting={isSubmitting}
+            onClose={onClose}
             submitForm={submitForm}
             resetForm={resetForm}
             setFieldValue={setFieldValue}
-            values={values}
-            teamId={teamId}
           />
         )}
       </Formik>

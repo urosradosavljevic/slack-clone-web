@@ -25,3 +25,20 @@ export const createChannelMutation = gql`
     }
   }
 `;
+
+export const getOrCreateDMChannelMutation = gql`
+  mutation GetOrCreateDMChannel($teamId: Int!, $members: [Int]) {
+    getOrCreateDMChannel(teamId: $teamId, members: $members) {
+      ok
+      channel {
+        id
+        name
+        dm
+      }
+      errors {
+        path
+        message
+      }
+    }
+  }
+`;
