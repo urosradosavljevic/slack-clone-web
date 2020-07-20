@@ -16,7 +16,7 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
     const [hasMoreMessages, setHasMoreMessages] = useState(true)
 
     const { loading, data, subscribeToMore, fetchMore } = useQuery(channelMessagesQuery, {
-        variables: { offset: 0, channelId },
+        variables: { cursor: '', channelId },
         fetchPolicy: 'network-only',
     })
 
@@ -38,9 +38,9 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
         }
     }
 
-    const fetchMoreMessages = async (offset: number) => {
+    const fetchMoreMessages = async (cursor: string) => {
         fetchMore({
-            variables: { offset, channelId },
+            variables: { cursor, channelId },
             updateQuery: (prev, { fetchMoreResult }) => {
                 console.log("prev", prev)
                 console.log("fetchMoreResult", fetchMoreResult)
@@ -54,10 +54,6 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
             }
         })
     }
-
-    useEffect(() => {
-        data?.channelMessages.length < 5 ? setHasMoreMessages(false) : setHasMoreMessages(true)
-    }, [data])
 
     useEffect(() => {
         const unsubscribe = subscribeToMore({

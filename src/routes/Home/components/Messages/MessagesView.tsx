@@ -10,7 +10,7 @@ interface Props {
     messages: Array<Message>
     channelId: number;
     hasMoreMessages: boolean;
-    fetchMoreMessages: (offset: number) => void;
+    fetchMoreMessages: (cursor: string) => void;
 }
 
 const messageListItem = (m: Message, i: number) => <Comment key={i}>
@@ -31,7 +31,7 @@ export const MessagesView: React.FC<Props> = ({ messages, channelId, fetchMoreMe
         <FileUpload channelId={channelId} >
             <MessagesWrapper>
                 <Comment.Group>
-                    {hasMoreMessages && <Button onClick={() => { fetchMoreMessages(messages.length) }}>Load More</Button>}
+                    {hasMoreMessages && messages.length >= 15 && <Button onClick={() => { fetchMoreMessages(messages[messages.length - 1].createdAt) }}>Load More</Button>}
                     {[...messages].reverse().map(messageListItem)}
                 </Comment.Group>
             </MessagesWrapper>
