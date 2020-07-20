@@ -26,7 +26,6 @@ export const SendMessageView: React.FC<Props> = ({ placeholder, channelId, setFi
       }}
       value={values.text}
       onChange={(e: React.FormEvent<HTMLInputElement>) => setFieldValue("text", e.currentTarget.value)}
-      component={TextInput}
     />
   );
 };

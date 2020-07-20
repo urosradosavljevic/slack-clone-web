@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 
 import { channelMessagesQuery } from '../../../../../graphql/message';
@@ -13,9 +13,10 @@ interface Props {
 
 const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
     const [sendMessage] = useMutation(sendMessageMutation);
+    const [hasMoreMessages, setHasMoreMessages] = useState(true)
 
-    const { loading, data, subscribeToMore } = useQuery(channelMessagesQuery, {
-        variables: { channelId },
+    const { loading, data, subscribeToMore, fetchMore } = useQuery(channelMessagesQuery, {
+        variables: { offset: 0, channelId },
         fetchPolicy: 'network-only',
     })
 
@@ -37,6 +38,27 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
         }
     }
 
+    const fetchMoreMessages = async (offset: number) => {
+        fetchMore({
+            variables: { offset, channelId },
+            updateQuery: (prev, { fetchMoreResult }) => {
+                console.log("prev", prev)
+                console.log("fetchMoreResult", fetchMoreResult)
+
+                if (!fetchMoreResult) return prev;
+                fetchMoreResult.channelMessages.length < 5 && setHasMoreMessages(false);
+                return {
+                    ...prev,
+                    channelMessages: [...prev.channelMessages, ...fetchMoreResult.channelMessages]
+                };
+            }
+        })
+    }
+
+    useEffect(() => {
+        data?.channelMessages.length < 5 ? setHasMoreMessages(false) : setHasMoreMessages(true)
+    }, [data])
+
     useEffect(() => {
         const unsubscribe = subscribeToMore({
             document: newChannelMessageSubscription,
@@ -47,7 +69,7 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
                 }
                 return {
                     ...prev,
-                    channelMessages: [...prev.channelMessages, subscriptionData.data.newChannelMessage]
+                    channelMessages: [subscriptionData.data.newChannelMessage, ...prev.channelMessages]
                 }
             }
         });
@@ -60,7 +82,12 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
 
     return (
         <>
-            <MessagesView channelId={channelId} messages={data.channelMessages} />
+            <MessagesView
+                fetchMoreMessages={fetchMoreMessages}
+                hasMoreMessages={hasMoreMessages}
+                channelId={channelId}
+                messages={data.channelMessages}
+            />
             <SendMessage submit={submit} channelId={channelId} placeholder={channelName} />
         </>
     );
