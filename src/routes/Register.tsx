@@ -54,6 +54,7 @@ export const Register: React.FC<Props> = () => {
           const { ok, errors } = data.register;
 
           if (ok) {
+            setSubmitting(false);
             history.push(LOGIN_ROUTE);
           } else {
             const err: FormikErrors<FormikValues> = {};
@@ -61,9 +62,9 @@ export const Register: React.FC<Props> = () => {
               err[path] = message;
             });
             setErrors(err);
+            setSubmitting(false);
           }
 
-          setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (

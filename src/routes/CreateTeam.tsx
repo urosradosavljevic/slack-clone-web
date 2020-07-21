@@ -49,6 +49,7 @@ export const CreateTeam: React.FC<Props> = observer(() => {
           const { ok, errors, team } = data.createTeam;
 
           if (ok) {
+            setSubmitting(false);
             history.push(`${TEAM_HOME_ROUTE}/${team.id}/1`);
           } else {
             const err: FormikErrors<FormikValues> = {};
@@ -56,8 +57,8 @@ export const CreateTeam: React.FC<Props> = observer(() => {
               err[path] = message;
             });
             setErrors(err);
+            setSubmitting(false);
           }
-          setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (

@@ -50,18 +50,19 @@ export const Login: React.FC<Props> = observer(() => {
           const { ok, errors, token, refreshToken } = data.login;
 
           if (ok) {
-            history.push(TEAM_HOME_ROUTE);
             localStorage.setItem("token", token);
             localStorage.setItem("refreshToken", refreshToken);
+            setSubmitting(false)
+            history.push(TEAM_HOME_ROUTE);
           } else {
             const err: FormikErrors<FormikValues> = {};
             errors.forEach(({ path, message }: FormikValues) => {
               err[path] = message;
             });
             setErrors(err);
+            setSubmitting(false)
           }
 
-          setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
@@ -70,7 +71,7 @@ export const Login: React.FC<Props> = observer(() => {
               name="email"
               title="Email"
               fluid
-              placeholder="john@mafil.com"
+              placeholder="john@mail.com"
               component={TextInput}
             />
             <Field

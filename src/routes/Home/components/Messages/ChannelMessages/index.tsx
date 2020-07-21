@@ -65,7 +65,6 @@ const ChannelMessages: React.FC<Props> = ({ channelId, channelName }) => {
         if (ok) {
             setSubmitting(false);
             values.text = ""
-            setSubmitting(false);
         }
     }
 

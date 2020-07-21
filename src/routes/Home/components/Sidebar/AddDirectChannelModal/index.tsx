@@ -59,9 +59,9 @@ const AddDirectChannelModal: React.FC<Props> = ({ open, onClose, teamId, myId })
         const { ok, errors, channel } = data.getOrCreateDMChannel;
 
         if (ok) {
-          history.push(`${TEAM_HOME_ROUTE}/${teamId}/${channel.id}`);
           setSubmitting(false);
           onClose();
+          history.push(`${TEAM_HOME_ROUTE}/${teamId}/${channel.id}`);
         } else {
           const err: FormikErrors<FormikValues> = {};
           errors.forEach(({ path, message }: FormikValues) => {

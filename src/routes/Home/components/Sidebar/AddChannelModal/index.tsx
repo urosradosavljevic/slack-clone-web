@@ -62,9 +62,9 @@ const AddChannelModal: React.FC<Props> = ({ teamId, myId, open, onClose }) => {
           const { ok, errors, channel } = data.createChannel;
 
           if (ok) {
-            history.push(`${TEAM_HOME_ROUTE}/${teamId}/${channel.id}`);
             setSubmitting(false);
             onClose();
+            history.push(`${TEAM_HOME_ROUTE}/${teamId}/${channel.id}`);
           } else {
             const err: FormikErrors<FormikValues> = {};
             errors.forEach(({ path, message }: FormikValues) => {
