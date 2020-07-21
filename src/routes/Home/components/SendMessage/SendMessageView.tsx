@@ -1,8 +1,6 @@
 import React from "react";
 import { Input } from "semantic-ui-react";
 
-import { TextInput } from "../../../../shared-components/TextInput";
-
 interface Props {
   placeholder: string;
   channelId?: number;

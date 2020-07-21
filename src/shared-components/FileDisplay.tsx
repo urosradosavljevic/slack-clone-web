@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Comment } from 'semantic-ui-react';
 
 interface Props {
@@ -13,7 +13,7 @@ interface FetchedText {
 export const FileDisplay: React.FC<Props> = ({ url, filetype }) => {
 
     if (filetype.startsWith('image/')) {
-        return <Comment.Text><img src={url} /></Comment.Text>
+        return <Comment.Text><img alt='' src={url} /></Comment.Text>
     } else if (filetype.startsWith('audio/')) {
         return <Comment.Text><audio controls>
             <source src={url} type={filetype} />

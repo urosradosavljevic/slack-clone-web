@@ -13,24 +13,21 @@ export const FileUpload: React.FC<Props> = ({ children, button, channelId }) => 
     const [sendMessage] = useMutation(sendMessageMutation);
 
     const onDrop = useCallback(async (acceptedFiles) => {
-        const { data } = await sendMessage({
+        await sendMessage({
             variables: {
                 channelId,
                 file: acceptedFiles[0]
             },
         });
-        const { ok } = data.sendMessage;
-    }, [])
+    }, [sendMessage, channelId])
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, noClick: button ? false : true })
 
     return (
         <div {...getRootProps({ onSubmit: () => { } })}
             style={!button ? {
-                position: "relative",
                 display: "flex",
-                flexDirection: "column-reverse",
-                overflowY: "scroll",
+                flexDirection: 'column-reverse',
             } : {}}
             tabIndex={undefined}
         >
