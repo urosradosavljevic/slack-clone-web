@@ -1,4 +1,4 @@
-# Node.js TypeScript Apollo with Auth Boilerplate
+# Slack React TypeScript Apollo Client
   
 * **Used:** 
   * React
