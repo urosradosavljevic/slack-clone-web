@@ -4,6 +4,8 @@
 
 * [Backend](https://github.com/urosradosavljevic/slack-clone-web/ "Backend repo")
 
+![Website Preview](https://res.cloudinary.com/misvetoih/image/upload/v1598966446/sure/jkju7kztau35amkxl6ra.jpg)
+
 * **What's different**
   * Using TypeScript instead of JavaScript
   * Hooks instead of HOC
